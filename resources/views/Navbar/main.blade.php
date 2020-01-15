@@ -86,13 +86,13 @@
 
 
 <!-- BEGIN: Main Menu-->
-
+@auth
 <div class="header-navbar navbar-expand-sm navbar navbar-horizontal navbar-fixed navbar-dark navbar-without-dd-arrow navbar-shadow"
         role="navigation" data-menu="menu-wrapper">
         <div class="navbar-container main-menu-content container center-layout" data-menu="menu-container">
                 <ul class="nav navbar-nav" id="main-menu-navigation" data-menu="menu-navigation">
                         <li class="dropdown nav-item" ><a class="nav-link"
-                                        href="/"><i
+                                        href="{{ route('landing') }}"><i
                                                 class="la la-home"></i><span>Dashboard</span></a>
                         </li>
                         <li class="dropdown nav-item" data-menu="dropdown"><a class="dropdown-toggle nav-link" href="#"
@@ -178,5 +178,5 @@
                 </ul>
         </div>
 </div>
-
+@endauth
 <!-- END: Main Menu-->
