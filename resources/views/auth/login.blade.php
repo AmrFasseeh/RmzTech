@@ -17,7 +17,7 @@
                                     <img src="{{ asset('/public/app-assets/images/logo.png') }}" alt="RmzTech" style="height:40px; width:150px">
                                 </div>
                                 <h6 class="card-subtitle line-on-side text-muted text-center font-small-3 pt-2">
-                                    <span>Login To RmzTech Dashboard</span></h6>
+                                    <span>Login To RmzTech Dashboard Git</span></h6>
                             </div>
                             <div class="card-content">
                                 <div class="card-body">
