@@ -20,8 +20,11 @@ Route::get('/users', 'UsersController@index')->name('show.users');
 Route::get('/records', 'UsRecordsController@index')->name('show.records');
 
 
-Route::get('/users/create', 'UsersController@create')->name('add.user');
+Route::get('users/create', 'UsersController@create')->name('add.user');
 Route::post('users/create', 'UsersController@store')->name('store.user');
+Route::get('users/edit/{user}', 'UsersController@edit')->name('edit.user');
+Route::post('users/update', 'UsersController@update')->name('update.user');
+Route::post('users/delete', 'UsersController@destroy')->name('delete.user');
 
 Route::get('/users/{user}', 'UsersController@show')->name('show.single');
 
@@ -52,6 +55,9 @@ Route::get('/ajax/populatecalendar','EventController@populateCalendar');
 Route::post('/ajax/createvent', 'EventController@createEvent');
 Route::post('/ajax/updatevent', 'EventController@updateEvent');
 Route::post('/ajax/deletevent', 'EventController@deleteEvent');
+
+Route::get('holidays', 'HolidayController@index')->name('add.holidays');
+Route::post('/ajax/saveholiday', 'HolidayController@store')->name('save.holidays');
 
 Auth::routes();
 

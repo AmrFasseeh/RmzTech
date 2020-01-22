@@ -25,7 +25,7 @@
             </div>
             <div class="card-content collpase show">
                 <div class="card-body">
-                    <form class="form form-horizontal form-bordered" action="{{ route('store.user') }}" method="POST"
+                    <form class="form form-horizontal form-bordered" action="{{ route('update.user') }}" method="POST"
                         enctype="multipart/form-data">
                         @csrf
                         <div class="form-body">
@@ -36,7 +36,7 @@
                                         <label class="col-md-3 label-control" for="fullname">Full Name</label>
                                         <div class="col-md-9">
                                             <input type="text" id="fullname" class="form-control border-primary"
-                                                placeholder="Full Name" name="fullname" value="{{ old('fullname') ?? '' }}">
+                                                placeholder="Full Name" name="fullname" value="{{ $user->fullname ?? '' }}">
                                             <div class="help-block font-small-3">
                                                 @error('fullname')
                                                 {{ $message }}
@@ -50,7 +50,7 @@
                                         <label class="col-md-3 label-control" for="username">User Name</label>
                                         <div class="col-md-9">
                                             <input type="text" id="username" class="form-control border-primary"
-                                                placeholder="User Name" name="username" value="{{ old('username') ?? '' }}">
+                                                placeholder="User Name" name="username" value="{{ $user->username ?? '' }}">
                                             <div class="help-block font-small-3">
                                                 @error('username')
                                                 {{ $message }}
@@ -96,7 +96,7 @@
                                         <label class="col-md-3 label-control" for="userinput5">Email</label>
                                         <div class="col-md-9">
                                             <input class="form-control border-primary" type="email" placeholder="Email"
-                                                name="email" id="email" value="{{ old('email') ?? '' }}">
+                                                name="email" id="email" value="{{ $user->email ?? '' }}">
                                             <div class="help-block font-small-3">
                                                 @error('email')
                                                 {{ $message }}
@@ -108,7 +108,7 @@
                                         <label class="col-md-3 label-control">Phone Number</label>
                                         <div class="col-md-9">
                                             <input class="form-control border-primary" type="text"
-                                                placeholder="Contact Number" name="phone" id="phone" value="{{ old('phone') ?? '' }}">
+                                                placeholder="Contact Number" name="phone" id="phone" value="{{ $user->phone ?? '' }}">
                                             <div class="help-block font-small-3">
                                                 @error('phone')
                                                 {{ $message }}
@@ -122,7 +122,7 @@
                                         <div class="col-md-9">
 
                                             <input type="text" class="form-control border-primary" id="animate"
-                                                placeholder="Join Date" name="time_user" value="{{ old('time_user') ?? '' }}">
+                                                placeholder="Join Date" name="time_user" value="{{ $user->time_user ?? '' }}">
                                             <div class="help-block font-small-3">
                                                 @error('date')
                                                 {{ $message }}
@@ -135,28 +135,11 @@
                                         <label class="col-md-3 label-control" for="working_hrs">Working Hours</label>
                                         <div class="col-md-9">
                                             <input class="form-control border-primary" type="number"
-                                                placeholder="Number of Hours" name="working_hrs" id="working_hrs" value="{{ old('working_hrs') ?? '' }}">
+                                                placeholder="Number of Hours" name="working_hrs" id="working_hrs" value="{{ $user->working_hrs ?? '' }}">
                                             <div class="help-block font-small-3">
                                                 @error('working_hrs')
                                                 {{ $message }}
                                                 @enderror
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row last mx-auto">
-                                        <label class="col-md-3 label-control">Gender</label>
-                                        <div class="col-md-9">
-                                            <div class="input-group col-md-9">
-                                                <div class="d-inline-block custom-control custom-radio mr-1">
-                                                    <input type="radio" name="gender" class="custom-control-input"
-                                                        id="male" value="1">
-                                                    <label class="custom-control-label" for="male">Male</label>
-                                                </div>
-                                                <div class="d-inline-block custom-control custom-radio">
-                                                    <input type="radio" name="gender" class="custom-control-input"
-                                                        id="female" value="0">
-                                                    <label class="custom-control-label" for="female">Female</label>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -191,7 +174,7 @@
                                 <i class="ft-x"></i> Cancel
                             </button>
                             <button type="submit" class="btn btn-primary">
-                                <i class="la la-check-square-o"></i> Save
+                                <i class="la la-check-square-o"></i> Update
                             </button>
                         </div>
                     </form>

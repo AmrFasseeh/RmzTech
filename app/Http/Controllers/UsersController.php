@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUser;
+use App\Http\Requests\UpdateUser;
 use App\Image;
 use App\Setting;
 use App\User;
@@ -10,6 +11,8 @@ use App\UsRecord;
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller
@@ -25,7 +28,7 @@ class UsersController extends Controller
      */
     public function index()
     {
-        return view('Users.show', ['users' => User::where('permissions', 0)->get()]);
+        return view('Users.show', ['users' => User::where('permissions', 0)->with('image')->get()]);
     }
 
     /**
@@ -54,12 +57,14 @@ class UsersController extends Controller
         $newEmp = User::create([
             'fullname' => $validatedEmp['fullname'],
             'username' => $validatedEmp['username'],
-            'password' => Hash::make($validatedEmp['password']),
+            'password' => md5($validatedEmp['password']),
             'email' => $validatedEmp['email'],
             'phone' => $validatedEmp['phone'],
             'time_user' => '123456',
             'gender' => $validatedEmp['gender'],
             'permissions' => $validatedEmp['permissions'],
+            'ip_user' => $request->ip(),
+            'working_hrs' => (int)$validatedEmp['working_hrs']
         ]);
 
         $newEmp->time_user = Carbon::make($validatedEmp['time_user']);
@@ -67,6 +72,11 @@ class UsersController extends Controller
         if ($request->file('image')) {
             $path = $request->file('image')->storeAs('user_images', $newEmp->id . '.' . $request->file('image')->guessExtension());
             // dd($path);
+            $newEmp->image()->save(
+                Image::make(['image_path' => $path])
+            );
+        } else {
+            $path = 'user_images/default-user.jpg';
             $newEmp->image()->save(
                 Image::make(['image_path' => $path])
             );
@@ -241,7 +251,7 @@ class UsersController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        return view('Users.edit', ['user'=>$user]);
     }
 
     /**
@@ -251,9 +261,10 @@ class UsersController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(UpdateUser $request, User $user)
     {
-        //
+        $updated_user = $request->validated();
+        dd($updated_user);
     }
 
     /**
@@ -262,8 +273,17 @@ class UsersController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy(Request $request)
     {
-        //
+        $delete_user = User::findorfail($request->user);
+        // dd($delete_user);
+        $this->authorize('delete', Auth::user());
+        DB::table('logup')->where('user_logup','=', $request->user)->delete();
+        DB::table('logout')->where('user_logup','=', $request->user)->delete();
+        $delete_user->delete();
+
+        $request->session()->flash('status', 'Employee was deleted!');
+
+        return redirect()->back();
     }
 }

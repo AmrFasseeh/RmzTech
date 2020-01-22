@@ -4,7 +4,7 @@
             <div class="card-body">
                 <div class="media d-flex">
                     <div class="media-body text-left">
-                        <h3 class="danger">{{ $totalhrs }}</h3>
+                        <h3 class="danger">{{ $totalhrs ?? '' }}</h3>
                         <span>{{ $slot }}</span>
                     </div>
                     <div class="align-self-center">

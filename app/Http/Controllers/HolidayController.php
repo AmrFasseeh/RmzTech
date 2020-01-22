@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Holiday;
 use Illuminate\Http\Request;
+use Response;
 
 class HolidayController extends Controller
 {
@@ -14,7 +15,7 @@ class HolidayController extends Controller
      */
     public function index()
     {
-        //
+        return view('settings.holidays');
     }
 
     /**
@@ -35,7 +36,15 @@ class HolidayController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // $insertArr = ['title' => $request->title,
+        //     'start' => $request->start,
+        //     'end' => $request->end,
+        // ];
+        // $event = Event::insert($insertArr);
+        // dd($event);
+        // $done = 'done';
+        $color = $request->holiday[0]['title'];
+        return Response::json($color);
     }
 
     /**
