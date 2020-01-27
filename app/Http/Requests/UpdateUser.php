@@ -23,11 +23,11 @@ class UpdateUser extends FormRequest
      * @return array
      */
     public function rules()
-    {
+    {      
         return [
-            'fullname' => 'string|min:8',
+            'fullname' => 'string',
             'username' => 'string',
-            'email' => ['email', Rule::unique('users')->ignore($this->user()->id),],
+            'email' => 'required|email',
             'password' => 'confirmed',
             'phone' => '',
             'gender' => 'bool',

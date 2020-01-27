@@ -261,10 +261,61 @@ class UsersController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateUser $request, User $user)
+    public function update(UpdateUser $request, User $user, $id)
     {
-        $updated_user = $request->validated();
-        dd($updated_user);
+        $validatedEmp = $request->validated();
+        dd($id);
+        $newEmp = User::create([
+            'fullname' => $validatedEmp['fullname'],
+            'username' => $validatedEmp['username'],
+            'password' => md5($validatedEmp['password']),
+            'email' => $validatedEmp['email'],
+            'phone' => $validatedEmp['phone'],
+            'time_user' => Carbon::make($validatedEmp['time_user']),
+            'gender' => $validatedEmp['gender'],
+            'permissions' => $validatedEmp['permissions'],
+            'ip_user' => $request->ip(),
+            'working_hrs' => (int)$validatedEmp['working_hrs']
+        ]);
+
+        // dd($request->file('image_user'));
+        if ($request->file('image')) {
+            $path = $request->file('image')->storeAs('user_images', $newEmp->id . '.' . $request->file('image')->guessExtension());
+            // dd($path);
+            if($user->image){
+                Storage::delete($user->image->path);
+                $user->image->path = $path;
+                $user->image->save();
+            } else {
+                $user->image()->save(
+                    Image::update(['image_path' => $path])
+                );
+            }
+        } else {
+            $path = 'user_images/default-user.jpg';
+            $newEmp->image()->save(
+                Image::update(['image_path' => $path])
+            );
+        }
+
+        if ($request->file('thumbnail')) {
+            $path = $request->file('thumbnail')->storeAs('thumbnails', $post->id . '.' . $request->file('thumbnail')->guessExtension());
+            if ($post->image) {
+                Storage::delete($post->image->path);
+                $post->image->path = $path;
+                $post->image->save();
+            } else {
+                $post->image()->save(
+                    Image::make(['path' => $path])
+                );
+            }
+
+        }
+        $newEmp->save();
+
+        $request->session()->flash('status', 'Employee was updated!');
+        return redirect()->back();
+        
     }
 
     /**

@@ -25,7 +25,8 @@
             </div>
             <div class="card-content collpase show">
                 <div class="card-body">
-                    <form class="form form-horizontal form-bordered" action="{{ route('update.user') }}" method="POST"
+                    <form class="form form-horizontal form-bordered"
+                        action="{{ route('update.user', ['id' => $user->id]) }}" method="POST"
                         enctype="multipart/form-data">
                         @csrf
                         <div class="form-body">
@@ -36,7 +37,8 @@
                                         <label class="col-md-3 label-control" for="fullname">Full Name</label>
                                         <div class="col-md-9">
                                             <input type="text" id="fullname" class="form-control border-primary"
-                                                placeholder="Full Name" name="fullname" value="{{ $user->fullname ?? '' }}">
+                                                placeholder="Full Name" name="fullname"
+                                                value="{{ $user->fullname ?? '' }}">
                                             <div class="help-block font-small-3">
                                                 @error('fullname')
                                                 {{ $message }}
@@ -50,7 +52,8 @@
                                         <label class="col-md-3 label-control" for="username">User Name</label>
                                         <div class="col-md-9">
                                             <input type="text" id="username" class="form-control border-primary"
-                                                placeholder="User Name" name="username" value="{{ $user->username ?? '' }}">
+                                                placeholder="User Name" name="username"
+                                                value="{{ $user->username ?? '' }}">
                                             <div class="help-block font-small-3">
                                                 @error('username')
                                                 {{ $message }}
@@ -108,7 +111,8 @@
                                         <label class="col-md-3 label-control">Phone Number</label>
                                         <div class="col-md-9">
                                             <input class="form-control border-primary" type="text"
-                                                placeholder="Contact Number" name="phone" id="phone" value="{{ $user->phone ?? '' }}">
+                                                placeholder="Contact Number" name="phone" id="phone"
+                                                value="{{ $user->phone ?? '' }}">
                                             <div class="help-block font-small-3">
                                                 @error('phone')
                                                 {{ $message }}
@@ -122,7 +126,8 @@
                                         <div class="col-md-9">
 
                                             <input type="text" class="form-control border-primary" id="animate"
-                                                placeholder="Join Date" name="time_user" value="{{ $user->time_user ?? '' }}">
+                                                placeholder="Join Date" name="time_user"
+                                                value="{{ $user->time_user ?? '' }}">
                                             <div class="help-block font-small-3">
                                                 @error('date')
                                                 {{ $message }}
@@ -135,7 +140,8 @@
                                         <label class="col-md-3 label-control" for="working_hrs">Working Hours</label>
                                         <div class="col-md-9">
                                             <input class="form-control border-primary" type="number"
-                                                placeholder="Number of Hours" name="working_hrs" id="working_hrs" value="{{ $user->working_hrs ?? '' }}">
+                                                placeholder="Number of Hours" name="working_hrs" id="working_hrs"
+                                                value="{{ $user->working_hrs ?? '' }}">
                                             <div class="help-block font-small-3">
                                                 @error('working_hrs')
                                                 {{ $message }}

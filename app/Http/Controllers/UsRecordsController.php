@@ -6,7 +6,6 @@ use App\Setting;
 use App\UsRecord;
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
-use Carbon\CarbonTimeZone;
 use Illuminate\Http\Request;
 
 class UsRecordsController extends Controller
@@ -141,7 +140,7 @@ class UsRecordsController extends Controller
             $totalHrs = CarbonInterval::minutes($n_total)->cascade();
 
             if (isset($wrkhrs)) {
-                return view('Records.show', ['users' => $users->unique('name_record'), 'wkhrs' => $wrkhrs, 'totalhrs' => $totalHrs, 'month' => $month, 'emptotal' => $totalemphrs, 'day' => $today]);
+                return view('Records.show', ['users' => $users->unique('name_record'), 'wkhrs' => $wrkhrs, 'totalhrs' => $totalHrs, 'month' => $month, 'emptotal' => $totalemphrs, 'day' => Carbon::createFromTimestamp($today)]);
             }
         }
         return view('Records.show', ['users' => $users]);

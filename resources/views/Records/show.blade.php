@@ -7,6 +7,7 @@
             <p class="card-text">Check out the whole users table
             </p>
         </div> --}}
+        {{-- {{ dd($day) }} --}}
         @if (isset($totalhrs))
             @if(isset($day))
             @hour(['totalhrs' => $totalhrs])
