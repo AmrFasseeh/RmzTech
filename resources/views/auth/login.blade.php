@@ -21,7 +21,7 @@
                             </div>
                             <div class="card-content">
                                 <div class="card-body">
-                                    <form class="form-horizontal" method="POST" action="{{ route('login') }}" novalidate>
+                                    <form class="form-horizontal" method="POST" action="{{ route('login') }}">
                                         @csrf
                                         <fieldset class="form-group position-relative has-icon-left">
                                             <input type="text" class="form-control input-lg @error('username') is-invalid @enderror" id="username" name="username"
