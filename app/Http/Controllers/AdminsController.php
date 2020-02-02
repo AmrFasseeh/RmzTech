@@ -19,6 +19,7 @@ class AdminsController extends Controller
     public function index()
     {
         return view('Admins.show', ['users' => User::where('permissions', 1)->get()]);
+        
     }
 
     /**
