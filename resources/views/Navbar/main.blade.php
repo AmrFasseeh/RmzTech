@@ -4,7 +4,7 @@
         <div class="navbar-wrapper">
                 <div class="navbar-header">
                         <ul class="nav navbar-nav flex-row" style="justify-content: center;">
-                                <li class="nav-item"><a class="navbar-brand" href="{{ route('home') }}"><img
+                                <li class="nav-item"><a class="navbar-brand" href="{{ route('landing') }}"><img
                                                         style="height:40px; width:150px" alt="Rmz Tech logo"
                                                         src="{{ asset('/public/app-assets/images/logo.png') }}">
                                         </a></li>
