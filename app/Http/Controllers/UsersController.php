@@ -13,7 +13,7 @@ use Carbon\CarbonInterval;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UsersController extends Controller
 {
@@ -64,7 +64,7 @@ class UsersController extends Controller
             'gender' => $validatedEmp['gender'],
             'permissions' => $validatedEmp['permissions'],
             'ip_user' => $request->ip(),
-            'working_hrs' => (int)$validatedEmp['working_hrs']
+            'working_hrs' => (int) $validatedEmp['working_hrs'],
         ]);
 
         $newEmp->time_user = Carbon::make($validatedEmp['time_user']);
@@ -251,7 +251,7 @@ class UsersController extends Controller
      */
     public function edit(User $user)
     {
-        return view('Users.edit', ['user'=>$user]);
+        return view('Users.edit', ['user' => $user]);
     }
 
     /**
@@ -261,61 +261,70 @@ class UsersController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateUser $request, User $user, $id)
+    public function update(UpdateUser $request, User $user)
     {
         $validatedEmp = $request->validated();
-        dd($id);
-        $newEmp = User::create([
-            'fullname' => $validatedEmp['fullname'],
-            'username' => $validatedEmp['username'],
-            'password' => md5($validatedEmp['password']),
-            'email' => $validatedEmp['email'],
-            'phone' => $validatedEmp['phone'],
-            'time_user' => Carbon::make($validatedEmp['time_user']),
-            'gender' => $validatedEmp['gender'],
-            'permissions' => $validatedEmp['permissions'],
-            'ip_user' => $request->ip(),
-            'working_hrs' => (int)$validatedEmp['working_hrs']
-        ]);
+        // dd($id);
+        $currUser = User::findorfail($request->id);
+        // dd($currUser->username, $validatedEmp);
+        if($currUser->username != $validatedEmp['username']){
+            $currUser->username = $validatedEmp['username'];
+        }
+        if($currUser->fullname != $validatedEmp['fullname']){
+            $currUser->fullname = $validatedEmp['fullname'];
+        }
+        if($currUser->password != md5($validatedEmp['password'])){
+            $currUser->password = md5($validatedEmp['password']);
+        }
+        if($currUser->email != $validatedEmp['email']){
+            $currUser->email = $validatedEmp['email'];
+        }
+        if($currUser->phone != $validatedEmp['phone']){
+            $currUser->phone = $validatedEmp['phone'];
+        }
+        if($currUser->time_user != Carbon::make($validatedEmp['time_user'])){
+            $currUser->time_user = Carbon::make($validatedEmp['time_user']);
+        }
+        // $currUser->gender = $validatedEmp['gender'];
+        if($currUser->working_hrs != (int) $validatedEmp['working_hrs']){
+            $currUser->working_hrs = (int) $validatedEmp['working_hrs'];
+        }
+        
 
         // dd($request->file('image_user'));
         if ($request->file('image')) {
-            $path = $request->file('image')->storeAs('user_images', $newEmp->id . '.' . $request->file('image')->guessExtension());
+            $path = $request->file('image')->storeAs('user_images', $currUser->id . '.' . $request->file('image')->guessExtension());
             // dd($path);
-            if($user->image){
+            if ($currUser->image) {
+                Storage::delete($currUser->image->path);
+                $currUser->image->path = $path;
+                $currUser->image->save();
+            } else {
+                $currUser->image()->update(['image_path' => $path]);
+            }
+        } else {
+            $path = 'user_images/default-user.jpg';
+            $currUser->image()->update(['image_path' => $path]);
+        }
+
+        if ($request->file('thumbnail')) {
+            $path = $request->file('thumbnail')->storeAs('thumbnails', $user->id . '.' . $request->file('thumbnail')->guessExtension());
+            if ($user->image) {
                 Storage::delete($user->image->path);
                 $user->image->path = $path;
                 $user->image->save();
             } else {
                 $user->image()->save(
-                    Image::update(['image_path' => $path])
-                );
-            }
-        } else {
-            $path = 'user_images/default-user.jpg';
-            $newEmp->image()->save(
-                Image::update(['image_path' => $path])
-            );
-        }
-
-        if ($request->file('thumbnail')) {
-            $path = $request->file('thumbnail')->storeAs('thumbnails', $post->id . '.' . $request->file('thumbnail')->guessExtension());
-            if ($post->image) {
-                Storage::delete($post->image->path);
-                $post->image->path = $path;
-                $post->image->save();
-            } else {
-                $post->image()->save(
                     Image::make(['path' => $path])
                 );
             }
 
         }
-        $newEmp->save();
+        $currUser->save();
 
         $request->session()->flash('status', 'Employee was updated!');
         return redirect()->back();
-        
+
     }
 
     /**
@@ -329,8 +338,8 @@ class UsersController extends Controller
         $delete_user = User::findorfail($request->user);
         // dd($delete_user);
         $this->authorize('delete', Auth::user());
-        DB::table('logup')->where('user_logup','=', $request->user)->delete();
-        DB::table('logout')->where('user_logup','=', $request->user)->delete();
+        DB::table('logup')->where('user_logup', '=', $request->user)->delete();
+        DB::table('logout')->where('user_logup', '=', $request->user)->delete();
         $delete_user->delete();
 
         $request->session()->flash('status', 'Employee was deleted!');
