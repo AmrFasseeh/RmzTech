@@ -12,7 +12,7 @@
 */
 
 Route::get('/', 'MainController@index')->name('landing');
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'MainController@index')->name('home');
 
 Route::get('/admins', 'AdminsController@index')->name('show.admins');
 Route::get('/users', 'UsersController@index')->name('show.users');

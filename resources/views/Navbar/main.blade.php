@@ -1,4 +1,5 @@
 <!-- BEGIN: Header-->
+@auth
 <nav
         class="header-navbar navbar-expand-md navbar navbar-with-menu navbar-without-dd-arrow navbar-static-top navbar-light navbar-brand-center">
         <div class="navbar-wrapper">
@@ -44,13 +45,13 @@
                                                                         class="flag-icon flag-icon-de"></i> German</a>
                                                 </div>
                                         </li>
-                                        @auth
+
                                         <li class="dropdown dropdown-user nav-item"><a
                                                         class="dropdown-toggle nav-link dropdown-user-link" href="#"
                                                         data-toggle="dropdown"><span
                                                                 class="mr-1 user-name text-bold-700">{{ Auth::user()->fullname }}</span><span
                                                                 class="avatar avatar-online"><img
-                                                                        src="{{ asset('/public/app-assets/images/portrait/small/avatar-s-19.png') }}"
+                                                                        src="{{ Auth::user()->image != NULL ? Auth::user()->image->url() : asset('/public/app-assets/images/portrait/small/avatar-s-19.png') }}"
                                                                         alt="avatar"><i></i></span></a>
                                                 <div class="dropdown-menu dropdown-menu-right"><a class="dropdown-item"
                                                                 href="user-profile.html"><i class="ft-user"></i> Edit
@@ -68,18 +69,19 @@
                                                                 @csrf
                                                         </form>
                                                 </div>
-                                        </li>
-                                        @else
+                                        {{-- </li>
+                                        
                                         <li class="nav-item"><a class="nav-link" href="{{ route('login') }}"><span
                                                                 class="mr-1 user-name text-bold-700">Login</span></a>
-                                        </li>
-                                        @endauth
+                                        </li> --}}
+                                        
 
                                 </ul>
                         </div>
                 </div>
         </div>
 </nav>
+@endauth
 <!-- END: Header-->
 
 
@@ -91,8 +93,7 @@
         role="navigation" data-menu="menu-wrapper">
         <div class="navbar-container main-menu-content container center-layout" data-menu="menu-container">
                 <ul class="nav navbar-nav" id="main-menu-navigation" data-menu="menu-navigation">
-                        <li class="dropdown nav-item" ><a class="nav-link"
-                                        href="{{ route('landing') }}"><i
+                        <li class="dropdown nav-item"><a class="nav-link" href="{{ route('landing') }}"><i
                                                 class="la la-home"></i><span>Dashboard</span></a>
                         </li>
                         <li class="dropdown nav-item" data-menu="dropdown"><a class="dropdown-toggle nav-link" href="#"

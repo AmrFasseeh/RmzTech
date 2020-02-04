@@ -273,7 +273,7 @@ class UsersController extends Controller
         if($currUser->fullname != $validatedEmp['fullname']){
             $currUser->fullname = $validatedEmp['fullname'];
         }
-        if($currUser->password != md5($validatedEmp['password'])){
+        if($currUser->password != md5($validatedEmp['password']) && $validatedEmp['password'] != ''){
             $currUser->password = md5($validatedEmp['password']);
         }
         if($currUser->email != $validatedEmp['email']){
@@ -290,14 +290,13 @@ class UsersController extends Controller
             $currUser->working_hrs = (int) $validatedEmp['working_hrs'];
         }
         
-
         // dd($request->file('image_user'));
         if ($request->file('image')) {
-            $path = $request->file('image')->storeAs('user_images', $currUser->id . '.' . $request->file('image')->guessExtension());
+            $path = $request->file('image')->storeAs('user_images', 'user-' .$currUser->id . '.' . $request->file('image')->guessExtension());
             // dd($path);
             if ($currUser->image) {
-                Storage::delete($currUser->image->path);
-                $currUser->image->path = $path;
+                Storage::delete($currUser->image->image_path);
+                $currUser->image->image_path = $path;
                 $currUser->image->save();
             } else {
                 $currUser->image()->update(['image_path' => $path]);
@@ -307,15 +306,15 @@ class UsersController extends Controller
             $currUser->image()->update(['image_path' => $path]);
         }
 
-        if ($request->file('thumbnail')) {
-            $path = $request->file('thumbnail')->storeAs('thumbnails', $user->id . '.' . $request->file('thumbnail')->guessExtension());
-            if ($user->image) {
-                Storage::delete($user->image->path);
-                $user->image->path = $path;
-                $user->image->save();
+        if ($request->file('image')) {
+            $path = $request->file('image')->storeAs('user_images', 'user-' . $currUser->id . '.' . $request->file('image')->guessExtension());
+            if ($currUser->image) {
+                Storage::delete($currUser->image->image_path);
+                $currUser->image->image_path = $path;
+                $currUser->image->save();
             } else {
-                $user->image()->save(
-                    Image::make(['path' => $path])
+                $currUser->image()->save(
+                    Image::make(['image_path' => $path])
                 );
             }
 
