@@ -293,7 +293,8 @@ class UsersController extends Controller
         // dd($request->file('image_user'));
         if ($request->file('image')) {
             $path = $request->file('image')->storeAs('user_images', 'user-' .$currUser->id . '.' . $request->file('image')->guessExtension());
-            // dd($path);
+            // $request->file('image')->store('avatars');
+            // dd($path, $request->file('image'));
             if ($currUser->image) {
                 Storage::delete($currUser->image->image_path);
                 $currUser->image->image_path = $path;
@@ -306,19 +307,19 @@ class UsersController extends Controller
             $currUser->image()->update(['image_path' => $path]);
         }
 
-        if ($request->file('image')) {
-            $path = $request->file('image')->storeAs('user_images', 'user-' . $currUser->id . '.' . $request->file('image')->guessExtension());
-            if ($currUser->image) {
-                Storage::delete($currUser->image->image_path);
-                $currUser->image->image_path = $path;
-                $currUser->image->save();
-            } else {
-                $currUser->image()->save(
-                    Image::make(['image_path' => $path])
-                );
-            }
+        // if ($request->file('image')) {
+        //     $path = $request->file('image')->storeAs('user_images', 'user-' . $currUser->id . '.' . $request->file('image')->guessExtension());
+        //     if ($currUser->image) {
+        //         Storage::delete($currUser->image->image_path);
+        //         $currUser->image->image_path = $path;
+        //         $currUser->image->save();
+        //     } else {
+        //         $currUser->image()->save(
+        //             Image::make(['image_path' => $path])
+        //         );
+        //     }
 
-        }
+        // }
         $currUser->save();
 
         $request->session()->flash('status', 'Employee was updated!');
