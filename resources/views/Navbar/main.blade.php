@@ -51,7 +51,7 @@
                                                         data-toggle="dropdown"><span
                                                                 class="mr-1 user-name text-bold-700">{{ Auth::user()->fullname }}</span><span
                                                                 class="avatar avatar-online"><img
-                                                                        src="{{ Auth::user()->image != NULL ? Auth::user()->image->url() : asset('/public/app-assets/images/portrait/small/avatar-s-19.png') }}"
+                                                                        src="{{ Auth::user()->image != NULL ? Auth::user()->image->url() : asset('/public/assets/rmz-logos/icon.png') }}"
                                                                         alt="avatar"><i></i></span></a>
                                                 <div class="dropdown-menu dropdown-menu-right"><a class="dropdown-item"
                                                                 href="user-profile.html"><i class="ft-user"></i> Edit
