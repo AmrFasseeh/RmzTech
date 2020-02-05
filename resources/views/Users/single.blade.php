@@ -54,7 +54,7 @@
 
 <!-- Default ordering table -->
 <div class="container">
-    <section id="ordering">
+    <section id="file-export">
         <div class="row">
             <div class="col-12">
                 <div class="card">
@@ -71,66 +71,63 @@
                         </div>
                     </div>
                     <div class="card-content collapse show">
-                        <div class="card-body card-dashboard">
-                            <p class="card-text">Check out your attendance
-                            </p>
-                            <div class="table-responsive">
-                                <table class="table table-striped table-bordered default-ordering">
-                                    <thead>
-                                        <tr>
-                                            <th>Login Time</th>
-                                            <th>Logout Time</th>
-                                            <th>Working Hours</th>
-                                            <th>Edit</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @forelse ($records as $record)
+                        <div class="card-body card-dashboard dataTables_wrapper dt-bootstrap">
+                            <p class="card-text">Check out your attendance</p>
+                            <table class="table table-striped table-bordered file-export">
+                                <thead>
+                                    <tr>
+                                        <th>Login Time</th>
+                                        <th>Logout Time</th>
+                                        <th>Working Hours</th>
+                                        <th>Edit</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse ($records as $record)
+                                    @if ( Carbon\Carbon::createFromTimestamp($record->logout_time_record) >
+                                    Carbon\Carbon::createFromTimestamp($record->login_time_record))
+                                    <tr>
+                                        @else
+                                    <tr style="background-color: #ff163540;">
+                                        @endif
+                                        <td>{{ Carbon\Carbon::createFromTimestamp($record->login_time_record)->toDateTimeString()}}
+                                        </td>
                                         @if ( Carbon\Carbon::createFromTimestamp($record->logout_time_record) >
                                         Carbon\Carbon::createFromTimestamp($record->login_time_record))
-                                        <tr>
-                                            @else
-                                        <tr style="background-color: #ff163540;">
-                                            @endif
-                                            <td>{{ Carbon\Carbon::createFromTimestamp($record->login_time_record)->toDateTimeString()}}
-                                            </td>
-                                            @if ( Carbon\Carbon::createFromTimestamp($record->logout_time_record) >
-                                            Carbon\Carbon::createFromTimestamp($record->login_time_record))
-                                            <td>{{ Carbon\Carbon::createFromTimestamp($record->logout_time_record)->toDateTimeString() }}
-                                            </td>
-                                            <td>{{ $wkhrs[$record->id] }}</td>
-                                            @else
-                                            <td>Didn't logout this day!</td>
-                                            <td>Assumed {{ $wkhrs[$record->id] }}</td>
-                                            @endif
-                                            @if ($record->logout_time_record > $record->login_time_record)
-                                            <td></td>
-                                            @else
-                                            <td>
-                                                <div class="fonticon-wrap"><a
-                                                        href="{{ route('edit.Urecord', ['record' => $record->id]) }}"><i
-                                                            class="la la-edit"></i></a></div>
-                                            </td>
-                                            @endif
+                                        <td>{{ Carbon\Carbon::createFromTimestamp($record->logout_time_record)->toDateTimeString() }}
+                                        </td>
+                                        <td>{{ $wkhrs[$record->id] }}</td>
+                                        @else
+                                        <td>Didn't logout this day!</td>
+                                        <td>Assumed {{ $wkhrs[$record->id] }}</td>
+                                        @endif
+                                        @if ($record->logout_time_record > $record->login_time_record)
+                                        <td></td>
+                                        @else
+                                        <td>
+                                            <div class="fonticon-wrap"><a
+                                                    href="{{ route('edit.Urecord', ['record' => $record->id]) }}"><i
+                                                        class="la la-edit"></i></a></div>
+                                        </td>
+                                        @endif
 
 
-                                        </tr>
-                                        @empty
-                                        <tr>
-                                            <td>There are no records for this user!</td>
-                                        </tr>
-                                        @endforelse
-                                    </tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <th>Login Time</th>
-                                            <th>Logout Time</th>
-                                            <th>Working Hours</th>
-                                            <th>Edit</th>
-                                        </tr>
-                                    </tfoot>
-                                </table>
-                            </div>
+                                    </tr>
+                                    @empty
+                                    <tr>
+                                        <td>There are no records for this user!</td>
+                                    </tr>
+                                    @endforelse
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>Login Time</th>
+                                        <th>Logout Time</th>
+                                        <th>Working Hours</th>
+                                        <th>Edit</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -139,4 +136,16 @@
     </section>
 </div>
 <!--/ Default ordering table -->
+@endsection
+@section('scripts')
+<script src="{{ asset('/public/app-assets/vendors/js/tables/datatable/datatables.min.js') }}"></script>
+<script src="{{ asset('/public/app-assets/vendors/js/tables/datatable/dataTables.buttons.min.js') }}"></script>
+<script src="{{ asset('/public/app-assets/vendors/js/tables/buttons.flash.min.js') }}"></script>
+<script src="{{ asset('/public/app-assets/vendors/js/tables/jszip.min.js') }}"></script>
+<script src="{{ asset('/public/app-assets/vendors/js/tables/pdfmake.min.js') }}"></script>
+<script src="{{ asset('/public/app-assets/vendors/js/tables/vfs_fonts.js') }}"></script>
+<script src="{{ asset('/public/app-assets/vendors/js/tables/buttons.html5.min.js') }}"></script>
+<script src="{{ asset('/public/app-assets/vendors/js/tables/buttons.print.min.js') }}"></script>
+
+<script src="{{ asset('/public/app-assets/js/scripts/tables/datatables/datatable-advanced.min.js') }}"></script>
 @endsection

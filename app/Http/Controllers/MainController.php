@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\BusinessHour;
 use App\Event;
+use App\Holiday;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Response;
 
 class MainController extends Controller
 {
@@ -53,4 +56,16 @@ class MainController extends Controller
         }
         return view('home', ['work' => $hours, 'days' => $days]);
     }
+    // public function getHolidays()
+    // {
+    //     if (request()->ajax()) {
+    //         // $start = (!empty($_GET["start"])) ? ($_GET["start"]) : ('');
+    //         // $end = (!empty($_GET["end"])) ? ($_GET["end"]) : ('');
+    //         $now = new Carbon();
+    //         $this_year = Carbon::create($now->year, 1, 1, 0, 0, 0);
+            
+    //         $data = Holiday::where('start', '>=', $this_year->toDateTimeString())->get();
+    //         return Response::json($data);
+    //     }
+    // }
 }

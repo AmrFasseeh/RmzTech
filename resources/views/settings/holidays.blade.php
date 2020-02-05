@@ -5,10 +5,12 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('public/app-assets/vendors/css/tables/jsgrid/jsgrid.min.css') }}">
 <link rel="stylesheet" type="text/css"
     href="{{ asset('public/app-assets/vendors/css/forms/selects/select2.min.css') }}">
+<link rel="stylesheet" type="text/css"
+href="{{ asset('/public/app-assets/vendors/css/extensions/datedropper.min.css') }}">
 @endsection
 @section('content')
 <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-7">
         <section id="odata-service">
             <div class="row">
                 <div class="col-12">
@@ -36,7 +38,7 @@
         </section>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-5">
         <div class="card">
             <div class="card-header">
                 <h4 class="card-title" id="row-separator-card-center">Register Holidays</h4>
@@ -62,7 +64,7 @@
                         <div class="form-body">
 
                             <div class="form-group row mx-auto">
-                                <label class="col-md-3 label-control" for="title">Holiday Title</label>
+                                <label class="col-md-3 label-control" for="title">Holiday</label>
                                 <div class="col-md-9">
                                     <input type="text" id="title" class="form-control" placeholder="Title" name="title">
                                 </div>
@@ -88,8 +90,10 @@
                                 <div class="col-md-9">
                                     <select class="select2 form-control" name="color" id="color">
                                         <optgroup label="Holiday type">
-                                            <option value="#000">Black</option>
-                                            <option value="#fff">White</option>
+                                            <option style="background-color: #f0134d" value="#f0134d">Red</option>
+                                            <option style="background-color: #ffcc00" value="#ffcc00">Yellow</option>
+                                            <option style="background-color: #b7e778" value="#b7e778">Green</option>
+                                            <option style="background-color: #1fab89" value="#1fab89">Dark Green</option>
                                         </optgroup>
                                     </select>
                                 </div>
@@ -113,6 +117,10 @@
 <script src="{{ asset('public/app-assets/vendors/js/tables/jsgrid/jsgrid.min.js') }}"></script>
 <script src="{{ asset('public/app-assets/vendors/js/tables/jsgrid/griddata.js') }}"></script>
 <script src="{{ asset('public/app-assets/vendors/js/forms/select/select2.full.min.js') }}"></script>
+
+<script src="{{ asset('/public/app-assets/vendors/js/extensions/datedropper.min.js') }}"></script>
+{{-- <script src="{{ asset('/public/app-assets/js/scripts/extensions/date-time-dropper.min.js') }}"></script> --}}
+
 <script>
     $(document).ready(function (){
         var SITEURL = "{{url('/')}}";
@@ -168,7 +176,6 @@ function loadHolidays() {
                                                 })
                                         }},
                 fields:[
-                    {name:"id", title:"ID",type:"integer",width:20},
                     {name:"title",title:"Title",type:"text"},
                     {name:"start",title:"Start Date",type:"date",width:100},
                     {name:"end",title:"End Date",type:"textarea",width:100},
@@ -176,6 +183,8 @@ function loadHolidays() {
                     ]});
                 }
                 loadHolidays();
+                $("#start").dateDropper({dropWidth:200,format:"Y-m-d"});
+                $("#end").dateDropper({dropWidth:200,format:"Y-m-d"});
     });
 </script>
 @endsection

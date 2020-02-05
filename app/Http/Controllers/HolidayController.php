@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Holiday;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 // use Illuminate\Http\Response;
 use Response;
@@ -15,16 +16,21 @@ class HolidayController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    {   
+        $now = new Carbon();
         if (request()->ajax()) {
             // $start = (!empty($_GET["start"])) ? ($_GET["start"]) : ('');
             // $end = (!empty($_GET["end"])) ? ($_GET["end"]) : ('');
-
-            $data = Holiday::all();
+            $now = new Carbon();
+            $this_year = Carbon::create($now->year, 1, 1, 0, 0, 0);
+            
+            $data = Holiday::where('start', '>=', $this_year->toDateTimeString())->get();
             return Response::json($data);
         }
         // $data = Holiday::where('id', '>=', 0)->get(['id','title','start', 'end', 'color']);
         // dd($data);
+        // $data = Holiday::where('start', '>=', $now->today()->toDateTimeString())->get();
+        // dd(Carbon::create($now->year, 1, 1, 0, 0, 0)->toDateTimeString());
         return view('settings.holidays');
     }
 

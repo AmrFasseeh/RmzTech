@@ -174,6 +174,9 @@
                                                         </li>
                                                 </ul>
                                         </li>
+                                        <li data-menu=""><a class="dropdown-item" href="{{ route('add.holidays') }}"
+                                                data-toggle=""><i class="la la-cogs"></i><span>Holidays</span></a>
+                                </li>
                                 </ul>
                         </li>
                 </ul>
