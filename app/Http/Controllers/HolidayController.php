@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Holiday;
 use Illuminate\Http\Request;
+// use Illuminate\Http\Response;
 use Response;
 
 class HolidayController extends Controller
@@ -15,6 +16,15 @@ class HolidayController extends Controller
      */
     public function index()
     {
+        if (request()->ajax()) {
+            // $start = (!empty($_GET["start"])) ? ($_GET["start"]) : ('');
+            // $end = (!empty($_GET["end"])) ? ($_GET["end"]) : ('');
+
+            $data = Holiday::all();
+            return Response::json($data);
+        }
+        // $data = Holiday::where('id', '>=', 0)->get(['id','title','start', 'end', 'color']);
+        // dd($data);
         return view('settings.holidays');
     }
 
@@ -36,15 +46,20 @@ class HolidayController extends Controller
      */
     public function store(Request $request)
     {
-        // $insertArr = ['title' => $request->title,
-        //     'start' => $request->start,
-        //     'end' => $request->end,
-        // ];
-        // $event = Event::insert($insertArr);
+        $insertArr = ['title' => $request->title,
+            'start' => $request->start,
+            'end' => $request->end,
+            'color' => $request->color
+        ];
+        $event = Holiday::insert($insertArr);
         // dd($event);
-        // $done = 'done';
-        $color = $request->holiday[0]['title'];
-        return Response::json($color);
+        $done = 'done';
+        // foreach ($request->holiday as $req) {
+        //     $color = $req['title'];
+        // }
+        
+        // dd($color);
+        return Response::json($event);
     }
 
     /**

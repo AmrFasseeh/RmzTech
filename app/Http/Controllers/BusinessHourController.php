@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\BusinessHour;
 use App\Http\Requests\StoreBusinessHour;
 use Illuminate\Http\Request;
+use Response;
 
 class BusinessHourController extends Controller
 {
