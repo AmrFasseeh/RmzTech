@@ -55,7 +55,10 @@
     timeZone: 'Africa/Cairo',
     header: { left: "prev,next today",
     center: "title", right: "month,agendaWeek,agendaDay,listMonth" },
-    events: SITEURL + '/ajax/populatecalendar',
+    eventSources: [
+      SITEURL + '/ajax/populatecalendar',
+      SITEURL + '/ajax/getholidays',
+    ],
     eventRender: function (event, element, view) {
       console.log(element);
       

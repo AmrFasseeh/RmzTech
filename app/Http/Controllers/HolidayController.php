@@ -34,6 +34,19 @@ class HolidayController extends Controller
         return view('settings.holidays');
     }
 
+    public function getHolidays()
+    {
+        if (request()->ajax()) {
+            // $start = (!empty($_GET["start"])) ? ($_GET["start"]) : ('');
+            // $end = (!empty($_GET["end"])) ? ($_GET["end"]) : ('');
+            $now = new Carbon();
+            $this_year = Carbon::create($now->year, 1, 1, 0, 0, 0);
+            
+            $data = Holiday::where('start', '>=', $this_year->toDateTimeString())->get();
+            return Response::json($data);
+        }
+    }
+
     /**
      * Show the form for creating a new resource.
      *

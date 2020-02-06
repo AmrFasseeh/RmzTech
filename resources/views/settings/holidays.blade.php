@@ -6,7 +6,24 @@
 <link rel="stylesheet" type="text/css"
     href="{{ asset('public/app-assets/vendors/css/forms/selects/select2.min.css') }}">
 <link rel="stylesheet" type="text/css"
-href="{{ asset('/public/app-assets/vendors/css/extensions/datedropper.min.css') }}">
+    href="{{ asset('/public/app-assets/vendors/css/extensions/datedropper.min.css') }}">
+<style>
+    .red-row {
+        background-color: #f0134d;
+    }
+
+    .yellow-row {
+        background-color: #ffcc00;
+    }
+
+    .green-row {
+        background-color: #b7e778;
+    }
+
+    .dkgreen-row {
+        background-color: #1fab89;
+    }
+</style>
 @endsection
 @section('content')
 <div class="row">
@@ -93,7 +110,8 @@ href="{{ asset('/public/app-assets/vendors/css/extensions/datedropper.min.css') 
                                             <option style="background-color: #f0134d" value="#f0134d">Red</option>
                                             <option style="background-color: #ffcc00" value="#ffcc00">Yellow</option>
                                             <option style="background-color: #b7e778" value="#b7e778">Green</option>
-                                            <option style="background-color: #1fab89" value="#1fab89">Dark Green</option>
+                                            <option style="background-color: #1fab89" value="#1fab89">Dark Green
+                                            </option>
                                         </optgroup>
                                     </select>
                                 </div>
@@ -170,7 +188,7 @@ function loadHolidays() {
                                     success: function (data) {
                                                     console.log('Data loaded!');
                                                     console.log(data);
-                                                    t.resolve(data.Response);
+                                                    // filter.resolve(data.Response);
                                                     
                                                             },
                                                 })
@@ -180,9 +198,19 @@ function loadHolidays() {
                     {name:"start",title:"Start Date",type:"date",width:100},
                     {name:"end",title:"End Date",type:"textarea",width:100},
                     {name:"color",title:"Type",type:"text",width:50}
-                    ]});
+                    ],
+                    
+                    });
+                    $("table.jsgrid-table tbody tr").each(function() {
+                    console.log('there');  
+                });
                 }
                 loadHolidays();
+                $("table.jsgrid-table tbody tr td:nth-child(1)").each(function () {
+                        if ($(this).text() == "#f0134d") {
+                            $(this).parent("tr").addClass("red-row");
+                        }
+                         });
                 $("#start").dateDropper({dropWidth:200,format:"Y-m-d"});
                 $("#end").dateDropper({dropWidth:200,format:"Y-m-d"});
     });
