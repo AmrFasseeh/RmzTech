@@ -79,7 +79,7 @@
                                                 href="{{ route('show.single', ['user' => $user->user_id]) }}">{{ $user->name_record }}</a>
                                         </td>
                                         @if (isset($day))
-                                        <td>{{ Carbon\Carbon::createFromTimestamp($user->login_time_record)->toTimeString() }}</td>
+                                        <td>{{ Carbon\Carbon::createFromTimestamp($user->login_time_record) }}</td>
                                         @if ($user->logout_time_record)
                                         <td>{{ Carbon\Carbon::createFromTimestamp($user->logout_time_record) }}</td>
                                         @else
