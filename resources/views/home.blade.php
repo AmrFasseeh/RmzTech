@@ -19,7 +19,7 @@
       <div class="card-content">
         <div class="media align-items-stretch">
           <div class="p-2 text-center bg-info bg-darken-2 rounded-left">
-            <i class="icon-camera font-large-2 text-white"></i>
+            <i class="icon-calendar font-large-2 text-white"></i>
           </div>
           <div class="p-2 bg-info text-white media-body rounded-right">
             <h5 class="text-white">Events in {{ $thisMonth }}</h5>
@@ -49,7 +49,7 @@
       <div class="card-content">
         <div class="media align-items-stretch">
           <div class="p-2 text-center bg-success bg-darken-2 rounded-left">
-            <i class="icon-basket-loaded font-large-2 text-white"></i>
+            <i class="icon-calendar font-large-2 text-white"></i>
           </div>
           <div class="p-2 bg-success text-white media-body rounded-right">
             <h5 class="text-white">Holidays in {{ $thisMonth }}</h5>
@@ -64,7 +64,7 @@
       <div class="card-content">
         <div class="media align-items-stretch">
           <div class="p-2 text-center bg-warning bg-darken-2 rounded-left">
-            <i class="icon-wallet font-large-2 text-white"></i>
+            <i class="icon-check font-large-2 text-white"></i>
           </div>
           <div class="p-2 bg-warning text-white media-body rounded-right">
             <h5 class="text-white">Checked-In</h5>
