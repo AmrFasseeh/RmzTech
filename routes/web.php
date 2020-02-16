@@ -60,6 +60,7 @@ Route::get('holidays', 'HolidayController@index')->name('add.holidays');
 Route::post('/ajax/saveholiday', 'HolidayController@store')->name('save.holidays');
 Route::get('/ajax/getholidays','HolidayController@getHolidays')->name('get.holidays');
 Route::post('/ajax/delholidays','HolidayController@deleteHolidays')->name('delete.holidays');
+Route::post('/ajax/editholidays','HolidayController@editHolidays')->name('edit.holidays');
 
 Auth::routes();
 

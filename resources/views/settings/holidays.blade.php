@@ -176,6 +176,7 @@ function loadHolidays() {
                 height:"auto",
                 width:"100%",
                 sorting:!0,
+                editing: !0,
                 paging:!1,
                 autoload:!0,
                 controller:{
@@ -195,13 +196,12 @@ function loadHolidays() {
                                         }},
                 fields:[
                     {name:"title",title:"Title",type:"text"},
-                    {name:"start",title:"Start Date",type:"date",width:100},
-                    {name:"end",title:"End Date",type:"textarea",width:100},
-                    {name:"color",title:"Type",type:"text",width:50}
+                    {name:"start",title:"Start Date",type:"text",width:100},
+                    {name:"end",title:"End Date",type:"text",width:100},
+                    {name:"color",title:"Type",type:"text",width:50},
+                    {type:"control"}
                     ],
-                    rowClick: function (args) {
-                    var deleteMsg = confirm("Do you really want to delete this record?");
-                    if (deleteMsg) {
+                    onItemDeleting: function(args) {
                         console.log(args);
                         var getData = args.item;
 
@@ -217,9 +217,47 @@ function loadHolidays() {
                                                     },
                                         })
                                         loadHolidays();
-                  }
-                             
+                },
+                    onItemUpdating: function(args) {
+                        // cancel update of the item with empty 'name' field
+                        if(args.item.name === "") {
+                            args.cancel = true;
+                            alert("Specify the name of the item!");
+                        }
+                        $.ajax({
+                              url: SITEURL + '/ajax/editholidays',
+                              data: args.item,
+                              type: "POST",
+                              success: function (response) {
+                                  console.log("Updated Successfully");
+                                  console.log(args.item);
+                                  console.log(response);
+                                  
+                              }
+                          });
+                        
                     }
+                //     rowClick: function (args) {
+                //     var deleteMsg = confirm("Do you really want to delete this record?");
+                //     if (deleteMsg) {
+                //         console.log(args);
+                //         var getData = args.item;
+
+                //         $.ajax({
+                //             type: "POST",
+                //             url: SITEURL + '/ajax/delholidays',
+                //             data: args.item,
+                //             success: function (data) {
+                //                             console.log('Holiday Deleted!');
+                //                             console.log(data);
+                //                             // filter.resolve(data.Response);
+                                            
+                //                                     },
+                //                         })
+                //                         loadHolidays();
+                //   }
+                             
+                //     }
                     });
                     $("table.jsgrid-table tbody tr").each(function() {
                     console.log('there');  

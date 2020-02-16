@@ -57,6 +57,14 @@ class HolidayController extends Controller
             return Response::json($holiday);
     }
 
+    public function editHolidays(Request $request)
+    {   
+        $where = array('id' => $request->id);
+        $updateArr = ['title' => $request->title,'start' => $request->start, 'end' => $request->end, 'color' => $request->color];
+        $holiday  = Holiday::where($where)->update($updateArr);
+ 
+        return Response::json($holiday);
+    } 
     /**
      * Show the form for creating a new resource.
      *
