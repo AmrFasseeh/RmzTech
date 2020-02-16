@@ -208,6 +208,7 @@
                           success: function (response) {
                               if(parseInt(response) > 0) {
                                   $('#calendar').fullCalendar('removeEvents', event.id);
+                                  $('#events').html(+$('#events').html() - +'1');
                                   console.log("Deleted Successfully");
                               }
                           }

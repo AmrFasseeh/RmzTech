@@ -14,7 +14,7 @@
         <h4 class="mt-1">Email: {{ $user->email }}</h4>
     </div>
     @if (isset($totalhrs))
-    <div class="col-xl-3 col-md-6 col-12">
+    <div class="col-xl-6 col-md-6 col-12">
         <div class="card">
             <div class="card-content">
                 <div class="card-body">
@@ -31,7 +31,28 @@
             </div>
         </div>
     </div>
-    <div class="col-xl-3 col-md-6 col-12">
+    @else
+    <div class="col-xl-6 col-md-6 col-6"></div>
+    @endif
+</div>
+<div class="row mt-1 mb-1">
+    <div class="col-xl-6 col-md-6 col-12">
+        <div class="form-group">
+            <!-- button group -->
+            <h2>Filter by Month</h2>
+            <div class="btn-group mt-1" role="group" aria-label="Basic example">
+
+                @forelse ($months as $month)
+                <a href="{{ route('show.monthly', ['user' => $user->id, 'month' => $month->login_mo_record ]) }}"
+                    class="btn btn-primary">{{ date("F", mktime(0, 0, 0, $month->login_mo_record, 10)) }}</a>
+                @empty
+
+                @endforelse
+            </div>
+        </div>
+    </div>
+    @if (isset($wkdays))
+    <div class="col-xl-6 col-md-6 col-12">
         <div class="card">
             <div class="card-content">
                 <div class="card-body">
@@ -48,24 +69,7 @@
             </div>
         </div>
     </div>
-    @else
-
     @endif
-    <div class="row mt-1 mb-1 ml-1">
-        <div class="form-group">
-            <!-- button group -->
-            <h2>Filter by Month</h2>
-            <div class="btn-group mt-1" role="group" aria-label="Basic example">
-
-                @forelse ($months as $month)
-                <a href="{{ route('show.monthly', ['user' => $user->id, 'month' => $month->login_mo_record ]) }}"
-                    class="btn btn-primary">{{ date("F", mktime(0, 0, 0, $month->login_mo_record, 10)) }}</a>
-                @empty
-
-                @endforelse
-            </div>
-        </div>
-    </div>
 </div>
 </div>
 
