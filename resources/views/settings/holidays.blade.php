@@ -198,7 +198,7 @@ function loadHolidays() {
                     {name:"title",title:"Title",type:"text"},
                     {name:"start",title:"Start Date",type:"text",width:100},
                     {name:"end",title:"End Date",type:"text",width:100},
-                    {name:"color",title:"Type",type:"text",width:50},
+                    {name:"color",title:"Color",type:"text",width:50},
                     {type:"control"}
                     ],
                     onItemDeleting: function(args) {
