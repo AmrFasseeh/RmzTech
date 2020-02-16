@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Holiday;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response as HttpResponse;
-// use Illuminate\Http\Response;
 use Response;
 
 class HolidayController extends Controller

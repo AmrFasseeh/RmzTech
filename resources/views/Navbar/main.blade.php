@@ -97,7 +97,7 @@
                                                 class="la la-home"></i><span>Dashboard</span></a>
                         </li>
                         <li class="dropdown nav-item" data-menu="dropdown"><a class="dropdown-toggle nav-link" href="#"
-                                        data-toggle="dropdown"><i class="la la-user"></i><span>View & Add</span></a>
+                                        data-toggle="dropdown"><i class="la la-user"></i><span>Users</span></a>
                                 <ul class="dropdown-menu">
                                         <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu"><a
                                                         class="dropdown-item dropdown-toggle" href="#"
