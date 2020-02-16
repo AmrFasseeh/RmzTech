@@ -12,10 +12,71 @@
 
 @endsection
 @section('content')
+
+<div class="row justify-content-center mt-2">
+  <div class="col-xl-3 col-md-6 col-12">
+    <div class="card">
+      <div class="card-content">
+        <div class="media align-items-stretch">
+          <div class="p-2 text-center bg-info bg-darken-2 rounded-left">
+            <i class="icon-camera font-large-2 text-white"></i>
+          </div>
+          <div class="p-2 bg-info text-white media-body rounded-right">
+            <h5 class="text-white">Events in {{ $thisMonth }}</h5>
+            <h5 class="text-white text-bold-400 mb-0" id="events">{{ $events }}</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-3 col-md-6 col-12">
+    <div class="card">
+      <div class="card-content">
+        <div class="media align-items-stretch">
+          <div class="p-2 text-center bg-danger bg-darken-2 rounded-left">
+            <i class="icon-user font-large-2 text-white"></i>
+          </div>
+          <div class="p-2 bg-danger text-white media-body rounded-right">
+            <h5 class="text-white">Total Employees</h5>
+            <h5 class="text-white text-bold-400 mb-0">{{ $emps ?? ''}}</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-3 col-md-6 col-12">
+    <div class="card">
+      <div class="card-content">
+        <div class="media align-items-stretch">
+          <div class="p-2 text-center bg-success bg-darken-2 rounded-left">
+            <i class="icon-basket-loaded font-large-2 text-white"></i>
+          </div>
+          <div class="p-2 bg-success text-white media-body rounded-right">
+            <h5 class="text-white">Holidays in {{ $thisMonth }}</h5>
+            <h5 class="text-white text-bold-400 mb-0">{{ $holidays }}</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-3 col-md-6 col-12">
+    <div class="card">
+      <div class="card-content">
+        <div class="media align-items-stretch">
+          <div class="p-2 text-center bg-warning bg-darken-2 rounded-left">
+            <i class="icon-wallet font-large-2 text-white"></i>
+          </div>
+          <div class="p-2 bg-warning text-white media-body rounded-right">
+            <h5 class="text-white">Checked-In</h5>
+            <h5 class="text-white text-bold-400 mb-0">{{ $checkins }}</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="row justify-content-center">
   <div class="col-md-12">
-    <div class="alert alert-light">Dashboard</div>
-
     <div class="alert alert-light">
       <div id="calendar"></div>
     </div>
@@ -87,6 +148,7 @@
                           success: function (data) {
                               console.log("Added Successfully");
                               console.log(data);
+                              $('#events').html(+$('#events').html() + +'1');
                               return true;
                             },
                             error: function(){ 

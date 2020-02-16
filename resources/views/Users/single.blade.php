@@ -9,7 +9,7 @@
 @endsection
 @section('content')
 <div class="row mt-2 mb-2">
-    <div class="col-xl-9 col-md-6">
+    <div class="col-xl-6 col-md-6">
         <h1>Employee: {{ $user->fullname }}</h1>
         <h4 class="mt-1">Email: {{ $user->email }}</h4>
     </div>
@@ -31,10 +31,27 @@
             </div>
         </div>
     </div>
+    <div class="col-xl-3 col-md-6 col-12">
+        <div class="card">
+            <div class="card-content">
+                <div class="card-body">
+                    <div class="media d-flex">
+                        <div class="media-body text-left">
+                            <h3 class="danger">{{ count($wkdays) ?? '' }} Days</h3>
+                            <span>Total Days in {{ date("F", mktime(0, 0, 0, $currMonth, 10)) }}</span>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="la la-history danger font-large-2 float-right"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     @else
 
     @endif
-    <div class="row mt-1 mb-2 ml-1">
+    <div class="row mt-1 mb-1 ml-1">
         <div class="form-group">
             <!-- button group -->
             <h2>Filter by Month</h2>

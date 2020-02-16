@@ -182,11 +182,14 @@ class UsersController extends Controller
         // dd($sorting);
         // dd($rec);
         if ($rec->contains('user_id', $id)) {
+            $i = 1;
             // dd($userRecords);
             $totalHrs = new Carbon();
             foreach ($rec as $userR) {
+                $login = Carbon::createFromTimestamp($userR->login_time_record);
+                $wkdays[$i] = $login->toDateString();
+                $i++;
                 if ($userR->logout_time_record > $userR->login_time_record) {
-                    $login = Carbon::createFromTimestamp($userR->login_time_record);
                     $logout = Carbon::createFromTimestamp($userR->logout_time_record);
                     $worksecs = $login->diffInSeconds($logout);
                     $workmins = $login->diffInMinutes($logout);
@@ -197,7 +200,6 @@ class UsersController extends Controller
                     $total[$userR->id] = $workmins;
                 } else {
                     $settings = Setting::findorfail(1);
-                    $login = Carbon::createFromTimestamp($userR->login_time_record);
                     $start = Carbon::create($login->year, $login->month, $login->day, $settings->start_hr ?? 7, 0, 0);
                     $end = Carbon::create($login->year, $login->month, $login->day, $settings->end_hr ?? 10, 0, 0);
                     // dd($login->day);
@@ -234,7 +236,8 @@ class UsersController extends Controller
                     'wkhrs' => $wrkhrs,
                     'months' => $sorting,
                     'totalhrs' => $totalHrs,
-                    'currMonth' => $month]);
+                    'currMonth' => $month,
+                    'wkdays' => $wkdays ?? '']);
         } else {
             return view('Users.single', ['user' => $userRecords,
                 'records' => $rec,
@@ -267,32 +270,32 @@ class UsersController extends Controller
         // dd($id);
         $currUser = User::findorfail($request->id);
         // dd($currUser->username, $validatedEmp);
-        if($currUser->username != $validatedEmp['username']){
+        if ($currUser->username != $validatedEmp['username']) {
             $currUser->username = $validatedEmp['username'];
         }
-        if($currUser->fullname != $validatedEmp['fullname']){
+        if ($currUser->fullname != $validatedEmp['fullname']) {
             $currUser->fullname = $validatedEmp['fullname'];
         }
-        if($currUser->password != md5($validatedEmp['password']) && $validatedEmp['password'] != ''){
+        if ($currUser->password != md5($validatedEmp['password']) && $validatedEmp['password'] != '') {
             $currUser->password = md5($validatedEmp['password']);
         }
-        if($currUser->email != $validatedEmp['email']){
+        if ($currUser->email != $validatedEmp['email']) {
             $currUser->email = $validatedEmp['email'];
         }
-        if($currUser->phone != $validatedEmp['phone']){
+        if ($currUser->phone != $validatedEmp['phone']) {
             $currUser->phone = $validatedEmp['phone'];
         }
-        if($currUser->time_user != Carbon::make($validatedEmp['time_user'])){
+        if ($currUser->time_user != Carbon::make($validatedEmp['time_user'])) {
             $currUser->time_user = Carbon::make($validatedEmp['time_user']);
         }
         // $currUser->gender = $validatedEmp['gender'];
-        if($currUser->working_hrs != (int) $validatedEmp['working_hrs']){
+        if ($currUser->working_hrs != (int) $validatedEmp['working_hrs']) {
             $currUser->working_hrs = (int) $validatedEmp['working_hrs'];
         }
-        
+
         // dd($request->file('image_user'));
         if ($request->file('image')) {
-            $path = $request->file('image')->storeAs('user_images', 'user-' .$currUser->id . '.' . $request->file('image')->guessExtension());
+            $path = $request->file('image')->storeAs('user_images', 'user-' . $currUser->id . '.' . $request->file('image')->guessExtension());
             // $request->file('image')->store('avatars');
             // dd($path, $request->file('image'));
             if ($currUser->image) {
