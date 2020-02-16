@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Holiday;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response as HttpResponse;
 // use Illuminate\Http\Response;
 use Response;
 
@@ -49,6 +50,11 @@ class HolidayController extends Controller
             $data = Holiday::where('start', '>=', $this_year->toDateTimeString())->get();
             return Response::json($data);
         }
+    }
+    public function deleteHolidays(Request $request)
+    {
+            $holiday = Holiday::where('id',$request->id)->delete();
+            return Response::json($holiday);
     }
 
     /**

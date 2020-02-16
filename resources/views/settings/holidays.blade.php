@@ -199,7 +199,27 @@ function loadHolidays() {
                     {name:"end",title:"End Date",type:"textarea",width:100},
                     {name:"color",title:"Type",type:"text",width:50}
                     ],
-                    
+                    rowClick: function (args) {
+                    var deleteMsg = confirm("Do you really want to delete this record?");
+                    if (deleteMsg) {
+                        console.log(args);
+                        var getData = args.item;
+
+                        $.ajax({
+                            type: "POST",
+                            url: SITEURL + '/ajax/delholidays',
+                            data: args.item,
+                            success: function (data) {
+                                            console.log('Holiday Deleted!');
+                                            console.log(data);
+                                            // filter.resolve(data.Response);
+                                            
+                                                    },
+                                        })
+                                        loadHolidays();
+                  }
+                             
+                    }
                     });
                     $("table.jsgrid-table tbody tr").each(function() {
                     console.log('there');  
