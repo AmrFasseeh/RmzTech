@@ -55,6 +55,7 @@ Route::get('/ajax/populatecalendar','EventController@populateCalendar');
 Route::post('/ajax/createvent', 'EventController@createEvent');
 Route::post('/ajax/updatevent', 'EventController@updateEvent');
 Route::post('/ajax/deletevent', 'EventController@deleteEvent');
+Route::get('/ajax/countevents','EventController@countEvents')->name('count.events');
 
 Route::get('holidays', 'HolidayController@index')->name('add.holidays');
 Route::post('/ajax/saveholiday', 'HolidayController@store')->name('save.holidays');

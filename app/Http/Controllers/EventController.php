@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Event;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Response;
 
@@ -24,6 +25,20 @@ class EventController extends Controller
         }
         
         return view('home');
+    }
+
+    public function countEvents()
+    {
+        if (request()->ajax()) {
+            // $start = (!empty($_GET["start"])) ? ($_GET["start"]) : ('');
+            // $end = (!empty($_GET["end"])) ? ($_GET["end"]) : ('');
+            $now = new Carbon();
+            $thisMonth = Carbon::create($now->year, $now->month, 1, 0, 0, 0);
+            $endMonth = Carbon::create($now->year, $now->month, $now->daysInMonth, 0, 0, 0);
+            
+            $counter = Event::where('start', '>=', $thisMonth->toDateTimeString())->where('end', '<=', $endMonth->toDateTimeString())->count();
+            return Response::json($counter);
+        }
     }
 
 

@@ -148,7 +148,14 @@
                           success: function (data) {
                               console.log("Added Successfully");
                               console.log(data);
-                              $('#events').html(+$('#events').html() + +'1');
+                              $.ajax({
+                                      url: SITEURL + '/ajax/countevents',
+                                      type: "GET",
+                                      success: function (response) {
+                                          console.log("Counter Updated!");
+                                          $('#events').html(response);
+                                      }
+                                    });
                               return true;
                             },
                             error: function(){ 
@@ -208,7 +215,14 @@
                           success: function (response) {
                               if(parseInt(response) > 0) {
                                   $('#calendar').fullCalendar('removeEvents', event.id);
-                                  $('#events').html(+$('#events').html() - +'1');
+                                  $.ajax({
+                                      url: SITEURL + '/ajax/countevents',
+                                      type: "GET",
+                                      success: function (resp) {
+                                          console.log("Counter Updated!");
+                                          $('#events').html(resp);
+                                      }
+                                    });
                                   console.log("Deleted Successfully");
                               }
                           }
