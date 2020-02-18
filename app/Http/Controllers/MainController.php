@@ -22,8 +22,10 @@ class MainController extends Controller
         $emps = User::where('permissions', '==', 0)->count();
         $now = new Carbon();
         $thisMonth = Carbon::create($now->year, $now->month, 1, 0, 0, 0);
+        $endMonth = Carbon::create($now->year, $now->month, 30, 0, 0, 0);
         $events = Event::where('start', '>=', $thisMonth->toDateTimeString())->count();
-        $holidays = Holiday::where('start', '>=', $thisMonth->toDateTimeString())->count();
+        $holidays = Holiday::where('start', '>=', $thisMonth->toDateTimeString())->where('end', '<=', $endMonth->toDateTimeString())->count();
+        // dd($holidays);
         $today = Carbon::create($now->year, $now->month, $now->day, 0, 0, 0);
         $checkins = UsRecord::where('login_time_record', '>=', $today->timestamp)->count();
 
