@@ -27,7 +27,8 @@ class StoreSetting extends FormRequest
             'start_hr' => 'required|integer',
             'end_hr' => 'required|integer',
             'within_flex' => 'required|integer',
-            'after_flex' => 'required|integer'
+            'after_flex' => 'required|integer',
+            'penalty_multiplier' => 'required'
         ];
     }
 }

@@ -58,6 +58,25 @@
                                 </div>
                             </div>
                         </div>
+                        <h4 class="form-section"><i class="la la-clock-o"></i> Late penalty multiplier</h4>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="within_flex">Specify the penalty multiplier</label>
+                                    <div class="card-content collapse show">
+                                        <div class="form-group">
+                                            <select class="select2 form-control" name="penalty_multiplier">
+                                                <option value="0" {{ $settings->penalty_multiplier == 0 ? 'selected' : '' }}>No Penalty</option>
+                                                <option value="0.5" {{ $settings->penalty_multiplier == 0.5 ? 'selected' : '' }}>Add half late hours</option>
+                                                <option value="1" {{ $settings->penalty_multiplier == 1 ? 'selected' : '' }}>Add late hours</option>
+                                                <option value="1.5" {{ $settings->penalty_multiplier == 1.5 ? 'selected' : '' }}>Add 1.5 of late hours</option>
+                                                <option value="2" {{ $settings->penalty_multiplier == 2 ? 'selected' : '' }}>Add double late hours</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-actions">
                             <button type="button" class="btn btn-warning mr-1">
                                 <i class="ft-x"></i> Cancel

@@ -9,25 +9,26 @@
         </div> --}}
         {{-- {{ dd($day) }} --}}
         @if (isset($totalhrs))
-            @if(isset($day))
-            @hour(['totalhrs' => $totalhrs])
-            Total Hours on {{ $day->englishDayOfWeek .', '
+        @if(isset($day))
+        @hour(['totalhrs' => $totalhrs])
+        Total Hours on {{ $day->englishDayOfWeek .', '
             . $day->day .', '
             . $day->englishMonth .', '
             . $day->year }}
-            @endhour
-            @elseif(isset($month))
-            @hour(['totalhrs' => $totalhrs])
-            Total Hours in {{ date("F", mktime(0, 0, 0, $month ?? 0, 10) ) }}
-            @endhour
-            @endif
+        @endhour
+        @elseif(isset($month))
+        @hour(['totalhrs' => $totalhrs])
+        Total Hours in {{ date("F", mktime(0, 0, 0, $month ?? 0, 10) ) }}
+        Expected Hours this month {{ $wkHours }}
+        @endhour
+        @endif
         @else
-            @hour(['totalhrs' => 'No check-outs yet!'])
-            Total Hours on {{ $day->englishDayOfWeek .', '
+        {{-- @hour(['totalhrs' => 'No check-outs yet!'])
+        Total Hours on {{ $day->englishDayOfWeek .', '
             . $day->day .', '
             . $day->englishMonth .', '
             . $day->year }}
-            @endhour
+        @endhour --}}
         @endif
     </div>
     <!-- File export table -->
@@ -69,12 +70,13 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    {{-- {{ dd($users) }} --}}
                                     @forelse ($users as $user)
                                     @if ($user->logout_time_record)
                                     <tr>
-                                    @else
+                                        @else
                                     <tr style="background-color: #ff163540;">
-                                    @endif
+                                        @endif
                                         <td><a
                                                 href="{{ route('show.single', ['user' => $user->user_id]) }}">{{ $user->name_record }}</a>
                                         </td>
@@ -83,7 +85,7 @@
                                         @if ($user->logout_time_record)
                                         <td>{{ Carbon\Carbon::createFromTimestamp($user->logout_time_record) }}</td>
                                         @else
-                                           <td>Didn't check-out yet!</td> 
+                                        <td>Didn't check-out yet!</td>
                                         @endif
                                         @elseif($month)
                                         <td>{{ Carbon\Carbon::createFromTimestamp($user->login_time_record)->englishMonth .', '. Carbon\Carbon::createFromTimestamp($user->login_time_record)->year }}
@@ -94,16 +96,25 @@
                                         {{-- <td>{{ Carbon\Carbon::createFromTimestamp($user->logout_time_record)->toDateTimeString() }}
                                         </td>
                                         <td>{{ $wkhrs[$user->id] ?? '' }}</td> --}}
+                                        {{-- {{ dd($wkhrs) }} --}}
                                         @if (isset($emptotal[$user->user_id]))
-                                        <td>{{ $emptotal[$user->user_id] ?? '' }}</td>
+                                        <td>{{ $emptotal[$user->user_id] ?? '' }}
+                                            @if (isset($day))
+                                        </td>
+                                        @else
+                                        <span class="danger" style="font-weight:bold"> out of
+                                        </span>{{ $expected_wkHours[$user->user_id].' expected hours' ?? ''  }}</td>
+                                        @endif
                                         @else
                                         <td>Didn't checkout yet!</td>
                                         @endif
-                                        
+
                                         @if (isset($status[$user->user_id]))
                                         <td>
-                                            <p class="{{ ($status[$user->user_id] != NULL) ? $status[$user->user_id] : '' }}">
-                                                {{ ($status[$user->user_id] != NULL) ? strtoupper($status[$user->user_id]) : '' }}</p>
+                                            <p
+                                                class="{{ ($status[$user->user_id] != NULL) ? $status[$user->user_id] : '' }}">
+                                                {{ ($status[$user->user_id] != NULL) ? strtoupper($status[$user->user_id]) : '' }}
+                                            </p>
                                         </td>
                                         @endif
                                     </tr>

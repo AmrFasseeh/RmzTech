@@ -47,6 +47,7 @@ class SettingController extends Controller
         $currentSetting->end_hr = $validatedSettings['end_hr'];
         $currentSetting->within_flex = $validatedSettings['within_flex'];
         $currentSetting->after_flex = $validatedSettings['after_flex'];
+        $currentSetting->penalty_multiplier = $validatedSettings['penalty_multiplier'];
 
         $currentSetting->save();
 
@@ -72,6 +73,7 @@ class SettingController extends Controller
                 'end_hr' => 10,
                 'within_flex' => 8,
                 'after_flex' => 6,
+                'penalty_multiplier' => 1
             ]);
             return view('settings.attendance', ['settings' => $setting]);
         }
