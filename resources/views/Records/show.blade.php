@@ -88,7 +88,7 @@
                                         <td>Didn't check-out yet!</td>
                                         @endif
                                         @elseif($month)
-                                        <td>{{ Carbon\Carbon::createFromTimestamp($user->login_time_record)->englishMonth .', '. Carbon\Carbon::createFromTimestamp($user->login_time_record)->year }}
+                                        <td>{{ __('app.'.Carbon\Carbon::createFromTimestamp($user->login_time_record)->englishMonth) .', '. Carbon\Carbon::createFromTimestamp($user->login_time_record)->year }}
                                         </td>
                                         @elseif($year)
 
@@ -102,8 +102,13 @@
                                             @if (isset($day))
                                         </td>
                                         @else
-                                        <span class="danger" style="font-weight:bold"> out of
-                                        </span>{{ $expected_wkHours[$user->user_id].' expected hours' ?? ''  }}</td>
+                                        <span class="danger" style="font-weight:bold">{{ __('out of') }}
+                                            @if (isset($expected_wkHours))
+                                        </span>{{ $expected_wkHours[$user->user_id].' '.__('expected hours') ?? ''  }}
+                                        </td>
+                                        @else
+                                        </td>
+                                        @endif
                                         @endif
                                         @else
                                         <td>Didn't checkout yet!</td>

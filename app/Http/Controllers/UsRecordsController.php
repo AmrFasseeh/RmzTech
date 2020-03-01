@@ -249,7 +249,7 @@ class UsRecordsController extends Controller
                     $finalExtra[$user->user_id] = ceil(array_sum($extraHours[$user->user_id]));
                     $expectedUserHours[$user->user_id] = $workingHours + (ceil($finalExtra[$user->user_id]) * $settings->penalty_multiplier);
                 }
-                
+
                 if (isset($workingHours)) {
                     $diff = $workingHours - $totalemphrs[$user->user_id]->hours;
                     // dd($diff, $user->user->working_hrs/2, $totalemphrs[$user->user_id]->hours);
@@ -274,8 +274,13 @@ class UsRecordsController extends Controller
             $totalHrs = CarbonInterval::minutes($n_total)->cascade();
 
             if (isset($wrkhrs)) {
-                return view('Records.show', ['users' => $users->unique('name_record'), 'wkhrs' => $wrkhrs, 'totalhrs' => $totalHrs,
-                    'month' => $month, 'emptotal' => $totalemphrs, 'status' => $class, 'expected_wkHours' => $expectedUserHours, 'wkHours' => $workingHours]);
+                if (!isset($expectedUserHours)) {
+                    return view('Records.show', ['users' => $users->unique('name_record'), 'wkhrs' => $wrkhrs, 'totalhrs' => $totalHrs,
+                        'month' => $month, 'emptotal' => $totalemphrs, 'status' => $class, 'wkHours' => $workingHours]);
+                } else {
+                    return view('Records.show', ['users' => $users->unique('name_record'), 'wkhrs' => $wrkhrs, 'totalhrs' => $totalHrs,
+                        'month' => $month, 'emptotal' => $totalemphrs, 'status' => $class, 'expected_wkHours' => $expectedUserHours, 'wkHours' => $workingHours]);
+                }
             }
         }
 
@@ -472,8 +477,13 @@ class UsRecordsController extends Controller
 
             if (isset($wrkhrs)) {
                 // dd();
-                return view('Records.show', ['users' => $users->unique('name_record'),
-                    'wkhrs' => $wrkhrs, 'totalhrs' => $totalHrs, 'month' => $now->month, 'emptotal' => $totalemphrs, 'status' => $class, 'expected_wkHours' => $expectedUserHours, 'wkHours' => $workingHours]);
+                if (!isset($expectedUserHours)) {
+                    return view('Records.show', ['users' => $users->unique('name_record'),
+                        'wkhrs' => $wrkhrs, 'totalhrs' => $totalHrs, 'month' => $now->month, 'emptotal' => $totalemphrs, 'status' => $class, 'wkHours' => $workingHours]);
+                } else {
+                    return view('Records.show', ['users' => $users->unique('name_record'),
+                        'wkhrs' => $wrkhrs, 'totalhrs' => $totalHrs, 'month' => $now->month, 'emptotal' => $totalemphrs, 'status' => $class, 'expected_wkHours' => $expectedUserHours, 'wkHours' => $workingHours]);
+                }
             }
         }
 
