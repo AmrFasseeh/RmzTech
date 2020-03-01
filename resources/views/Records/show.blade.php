@@ -102,8 +102,8 @@
                                             @if (isset($day))
                                         </td>
                                         @else
-                                        <span class="danger" style="font-weight:bold">{{ __('out of') }}
                                             @if (isset($expected_wkHours))
+                                            <span class="danger" style="font-weight:bold">{{ __('out of') }}
                                         </span>{{ $expected_wkHours[$user->user_id].' '.__('expected hours') ?? ''  }}
                                         </td>
                                         @else
