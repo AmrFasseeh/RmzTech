@@ -247,8 +247,9 @@ class UsRecordsController extends Controller
                 $totalemphrs[$user->user_id] = CarbonInterval::minutes(array_sum($empTotal[$user->user_id]))->cascade();
                 if (isset($extraHours)) {
                     $finalExtra[$user->user_id] = ceil(array_sum($extraHours[$user->user_id]));
+                    $expectedUserHours[$user->user_id] = $workingHours + (ceil($finalExtra[$user->user_id]) * $settings->penalty_multiplier);
                 }
-                $expectedUserHours[$user->user_id] = $workingHours + (ceil($finalExtra[$user->user_id]) * $settings->penalty_multiplier);
+                
                 if (isset($workingHours)) {
                     $diff = $workingHours - $totalemphrs[$user->user_id]->hours;
                     // dd($diff, $user->user->working_hrs/2, $totalemphrs[$user->user_id]->hours);
@@ -442,8 +443,8 @@ class UsRecordsController extends Controller
 
                 if (isset($extraHours)) {
                     $finalExtra[$user->user_id] = ceil(array_sum($extraHours[$user->user_id]));
+                    $expectedUserHours[$user->user_id] = $workingHours + (ceil($finalExtra[$user->user_id]) * $settings->penalty_multiplier);
                 }
-                $expectedUserHours[$user->user_id] = $workingHours + (ceil($finalExtra[$user->user_id]) * $settings->penalty_multiplier);
 
                 if (isset($workingHours)) {
                     $diff = $workingHours - $totalemphrs[$user->user_id]->hours;
