@@ -141,7 +141,7 @@ class UsRecordsController extends Controller
 
             if (isset($wrkhrs)) {
                 return view('Records.show', ['users' => $users->unique('name_record'), 'wkhrs' => $wrkhrs, 'totalhrs' => $totalHrs,
-                 'month' => $month, 'emptotal' => $totalemphrs, 'day' => Carbon::createFromTimestamp($today)]);
+                    'month' => $month, 'emptotal' => $totalemphrs, 'day' => Carbon::createFromTimestamp($today)]);
             }
         }
         return view('Records.show', ['users' => $users]);
@@ -209,10 +209,10 @@ class UsRecordsController extends Controller
                 $empTotal[$user->user_id][$user->id] = $workmins;
                 $end = Carbon::create($login->year, $login->month, $login->day, $settings->end_hr ?? 10, 0, 0);
                 $diff = $login->floatDiffInHours($end);
-                    if($diff > 0){
-                        // dd(ceil($diff)*2);
-                        $extraHours[$user->user_id][$user->id] = $diff;
-                    }
+                if ($diff > 0) {
+                    // dd(ceil($diff)*2);
+                    $extraHours[$user->user_id][$user->id] = $diff;
+                }
             } else {
                 $today = $user->login_time_record;
                 $login = Carbon::createFromTimestamp($user->login_time_record);
@@ -234,7 +234,7 @@ class UsRecordsController extends Controller
                     $empTotal[$user->user_id][$user->id] = $workmins;
                     $wrkhrs[$user->id] = CarbonInterval::seconds($worksecs)->cascade()->forHumans();
                     $diff = $login->floatDiffInHours($end);
-                    if($diff > 0){
+                    if ($diff > 0) {
                         $extraHours[$user->user_id][$user->id] = $diff;
                     }
                 }
@@ -245,8 +245,10 @@ class UsRecordsController extends Controller
             $n_total = array_sum($total);
             foreach ($users as $user) {
                 $totalemphrs[$user->user_id] = CarbonInterval::minutes(array_sum($empTotal[$user->user_id]))->cascade();
-                $finalExtra[$user->user_id] = ceil(array_sum($extraHours[$user->user_id]));
-                $expectedUserHours[$user->user_id] = $workingHours + (ceil($finalExtra[$user->user_id])*$settings->penalty_multiplier);
+                if (isset($extraHours)) {
+                    $finalExtra[$user->user_id] = ceil(array_sum($extraHours[$user->user_id]));
+                }
+                $expectedUserHours[$user->user_id] = $workingHours + (ceil($finalExtra[$user->user_id]) * $settings->penalty_multiplier);
                 if (isset($workingHours)) {
                     $diff = $workingHours - $totalemphrs[$user->user_id]->hours;
                     // dd($diff, $user->user->working_hrs/2, $totalemphrs[$user->user_id]->hours);
@@ -269,7 +271,6 @@ class UsRecordsController extends Controller
             // $totalemphrs = array_sum(array_column($empTotal, ));
             // print_r($totalemphrs[35]);
             $totalHrs = CarbonInterval::minutes($n_total)->cascade();
-            
 
             if (isset($wrkhrs)) {
                 return view('Records.show', ['users' => $users->unique('name_record'), 'wkhrs' => $wrkhrs, 'totalhrs' => $totalHrs,
@@ -399,11 +400,11 @@ class UsRecordsController extends Controller
 
                 $end = Carbon::create($login->year, $login->month, $login->day, $settings->end_hr ?? 10, 0, 0);
                 $diff = $login->floatDiffInHours($end);
-                    if($diff > 0){
-                        // dd(ceil($diff)*2);
-                        $extraHours[$user->user_id][$user->id] = $diff;
-                        
-                    }
+                if ($diff > 0) {
+                    // dd(ceil($diff)*2);
+                    $extraHours[$user->user_id][$user->id] = $diff;
+
+                }
             } else {
                 $today = $user->login_time_record;
                 $login = Carbon::createFromTimestamp($user->login_time_record);
@@ -425,21 +426,25 @@ class UsRecordsController extends Controller
                     $empTotal[$user->user_id][$user->id] = $workmins;
                     $wrkhrs[$user->id] = CarbonInterval::seconds($worksecs)->cascade()->forHumans();
                     $diff = $login->floatDiffInHours($end);
-                    if($diff > 0){
+                    if ($diff > 0) {
                         $extraHours[$user->user_id][$user->id] = $diff;
-                        
+
                     }
                 }
             }
         }
-        
+
         // print_r($total);
         if (isset($total)) {
             $n_total = array_sum($total);
             foreach ($users as $user) {
                 $totalemphrs[$user->user_id] = CarbonInterval::minutes(array_sum($empTotal[$user->user_id]))->cascade();
-                $finalExtra[$user->user_id] = ceil(array_sum($extraHours[$user->user_id]));
-                $expectedUserHours[$user->user_id] = $workingHours + (ceil($finalExtra[$user->user_id])*$settings->penalty_multiplier);
+
+                if (isset($extraHours)) {
+                    $finalExtra[$user->user_id] = ceil(array_sum($extraHours[$user->user_id]));
+                }
+                $expectedUserHours[$user->user_id] = $workingHours + (ceil($finalExtra[$user->user_id]) * $settings->penalty_multiplier);
+
                 if (isset($workingHours)) {
                     $diff = $workingHours - $totalemphrs[$user->user_id]->hours;
                     // dd($diff, $user->user->working_hrs/2, $totalemphrs[$user->user_id]->hours);
