@@ -1304,7 +1304,7 @@ trait ValidatesAttributes
         if ($guard->guest()) {
             return false;
         }
-
+        dd($this->permissions);
         return $hasher->check($value, $guard->user()->getAuthPassword());
     }
 

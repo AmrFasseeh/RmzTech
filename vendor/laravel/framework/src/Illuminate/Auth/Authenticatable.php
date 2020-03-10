@@ -2,6 +2,8 @@
 
 namespace Illuminate\Auth;
 
+use Illuminate\Support\Facades\Hash;
+
 trait Authenticatable
 {
     /**
@@ -38,6 +40,7 @@ trait Authenticatable
      */
     public function getAuthPassword()
     {
+        // dd(bcrypt('4e58a9dbce6e67cf169afb4f1a46febc'), bcrypt('@Rmz2010'), Hash::check(bcrypt('4e58a9dbce6e67cf169afb4f1a46febc'), bcrypt('@Rmz2010')));
         return $this->password;
     }
 

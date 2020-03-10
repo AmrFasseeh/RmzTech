@@ -48,8 +48,8 @@ class EloquentUserProvider implements UserProvider
         $model = $this->createModel();
 
         return $this->newModelQuery($model)
-                    ->where($model->getAuthIdentifierName(), $identifier)
-                    ->first();
+            ->where($model->getAuthIdentifierName(), $identifier)
+            ->first();
     }
 
     /**
@@ -67,14 +67,14 @@ class EloquentUserProvider implements UserProvider
             $model->getAuthIdentifierName(), $identifier
         )->first();
 
-        if (! $retrievedModel) {
+        if (!$retrievedModel) {
             return;
         }
 
         $rememberToken = $retrievedModel->getRememberToken();
 
         return $rememberToken && hash_equals($rememberToken, $token)
-                        ? $retrievedModel : null;
+        ? $retrievedModel : null;
     }
 
     /**
@@ -106,8 +106,8 @@ class EloquentUserProvider implements UserProvider
     public function retrieveByCredentials(array $credentials)
     {
         if (empty($credentials) ||
-           (count($credentials) === 1 &&
-            array_key_exists('password', $credentials))) {
+            (count($credentials) === 1 &&
+                array_key_exists('password', $credentials))) {
             return;
         }
 
@@ -142,7 +142,12 @@ class EloquentUserProvider implements UserProvider
     {
         $plain = $credentials['password'];
 
-        return $this->hasher->check($plain, $user->getAuthPassword());
+        // dd($this->hasher->check($plain, $user->getAuthPassword()));
+        if ($user->permissions == 1) {
+            return $this->hasher->check($plain, $user->getAuthPassword());
+        } elseif ($user->permissions == 0) {
+            return (md5($plain) == $user->getAuthPassword()) ? true : false;
+        }
     }
 
     /**
@@ -154,8 +159,8 @@ class EloquentUserProvider implements UserProvider
     protected function newModelQuery($model = null)
     {
         return is_null($model)
-                ? $this->createModel()->newQuery()
-                : $model->newQuery();
+        ? $this->createModel()->newQuery()
+        : $model->newQuery();
     }
 
     /**
@@ -165,7 +170,7 @@ class EloquentUserProvider implements UserProvider
      */
     public function createModel()
     {
-        $class = '\\'.ltrim($this->model, '\\');
+        $class = '\\' . ltrim($this->model, '\\');
 
         return new $class;
     }
