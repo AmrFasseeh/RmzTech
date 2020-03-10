@@ -20,4 +20,6 @@
 
 <!-- BEGIN: Page JS-->
 <script src="{{ asset('/public/app-assets/js/scripts/pages/dashboard-ecommerce.min.js') }}"></script>
+<script src="{{ asset('/public/assets/js/vue.js') }}"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <!-- END: Page JS-->

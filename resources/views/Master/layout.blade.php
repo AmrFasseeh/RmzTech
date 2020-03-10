@@ -28,7 +28,9 @@
 
 </body>
 @include('Master.scripts')
+
 @yield('scripts')
+
 @include('Master.footer')
 
 </html>

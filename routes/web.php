@@ -9,35 +9,47 @@
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
+ */
 
+Route::group(['middleware' => ['role:Admin']], function () {
+    Route::get('/home', 'MainController@index')->name('home');
+    Route::resource('settings', 'SettingController')->only('show', 'store');
+    Route::resource('businesshours', 'BusinessHourController')->only('show', 'create', 'store');
+    Route::get('users/create', 'UsersController@create')->name('add.user');
+    Route::post('users/create', 'UsersController@store')->name('store.user');
+    Route::get('users/edit/{user}', 'UsersController@edit')->name('edit.user');
+    Route::post('users/update', 'UsersController@update')->name('update.user');
+    Route::post('users/delete', 'UsersController@destroy')->name('delete.user');
+    Route::get('/users', 'UsersController@index')->name('show.users');
+
+});
+Route::group(['middleware' => ['role:employee']], function () {
+    Route::get('/home', 'EmployeeController@index')->name('emp.home');
+    Route::get('/viewusers', 'EmployeeController@viewUsers')->name('view.users');
+    Route::get('/employee/monthly', 'EmployeeController@GetEmpMonth')->name('monthly.emp');
+    Route::get('/employee/lastmonth', 'EmployeeController@GetEmpLastMonth')->name('lastmonth.emp');
+
+});
+Route::get('/ajax/show', 'EmployeeController@show');
 Route::get('/', 'MainController@index')->name('landing');
-Route::get('/home', 'MainController@index')->name('home');
+
 
 Route::get('/admins', 'AdminsController@index')->name('show.admins');
-Route::get('/users', 'UsersController@index')->name('show.users');
 
 Route::get('/records', 'UsRecordsController@index')->name('show.records');
 
 
-Route::get('users/create', 'UsersController@create')->name('add.user');
-Route::post('users/create', 'UsersController@store')->name('store.user');
-Route::get('users/edit/{user}', 'UsersController@edit')->name('edit.user');
-Route::post('users/update', 'UsersController@update')->name('update.user');
-Route::post('users/delete', 'UsersController@destroy')->name('delete.user');
 
 Route::get('/users/{user}', 'UsersController@show')->name('show.single');
 
 Route::get('user/record/edit/{record}', 'UsRecordsController@edit')->name('edit.Urecord');
 Route::post('user/record/edit', 'UsRecordsController@update')->name('update.Urecord');
 
-
 Route::get('/users/{user}/{month}', 'UsersController@showMonthly')->name('show.monthly');
 
 Route::get('records/years', 'UsRecordsController@listYears')->name('records.years');
 Route::get('records/{year}', 'UsRecordsController@listMonths')->name('records.yearly');
 Route::get('records/{year}/{month}/days', 'UsRecordsController@listMonthDays')->name('records.daily');
-
 
 Route::get('records/{year}/{month}', 'UsRecordsController@showYearMonth')->name('records.monthly');
 
@@ -47,22 +59,16 @@ Route::get('reports/today', 'UsRecordsController@showTodayReport')->name('report
 Route::get('reports/monthly', 'UsRecordsController@showThisMonth')->name('reports.monthly');
 
 
-Route::resource('settings', 'SettingController')->only('show', 'store');
-
-Route::resource('businesshours', 'BusinessHourController')->only('show', 'create', 'store');
-
-Route::get('/ajax/populatecalendar','EventController@populateCalendar');
+Route::get('/ajax/populatecalendar', 'EventController@populateCalendar');
 Route::post('/ajax/createvent', 'EventController@createEvent');
 Route::post('/ajax/updatevent', 'EventController@updateEvent');
 Route::post('/ajax/deletevent', 'EventController@deleteEvent');
-Route::get('/ajax/countevents','EventController@countEvents')->name('count.events');
+Route::get('/ajax/countevents', 'EventController@countEvents')->name('count.events');
 
 Route::get('holidays', 'HolidayController@index')->name('add.holidays');
 Route::post('/ajax/saveholiday', 'HolidayController@store')->name('save.holidays');
-Route::get('/ajax/getholidays','HolidayController@getHolidays')->name('get.holidays');
-Route::post('/ajax/delholidays','HolidayController@deleteHolidays')->name('delete.holidays');
-Route::post('/ajax/editholidays','HolidayController@editHolidays')->name('edit.holidays');
+Route::get('/ajax/getholidays', 'HolidayController@getHolidays')->name('get.holidays');
+Route::post('/ajax/delholidays', 'HolidayController@deleteHolidays')->name('delete.holidays');
+Route::post('/ajax/editholidays', 'HolidayController@editHolidays')->name('edit.holidays');
 
 Auth::routes();
-
-

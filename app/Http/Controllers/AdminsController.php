@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AdminsController extends Controller
 {
@@ -18,8 +19,11 @@ class AdminsController extends Controller
      */
     public function index()
     {
+        if (!(Auth::user()->getRoleNames()->first() == "Admin")) {
+            Auth::user()->assignRole('Admin');
+        }
         return view('Admins.show', ['users' => User::where('permissions', 1)->get()]);
-        
+
     }
 
     /**
@@ -40,7 +44,7 @@ class AdminsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
     }
 
     /**

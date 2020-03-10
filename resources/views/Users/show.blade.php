@@ -32,7 +32,9 @@
                                         <th>Phone Number</th>
                                         <th>Email</th>
                                         <th>Joined at</th>
+                                        @if (Auth::user()->getRoleNames()->first() == "Admin")
                                         <th>Edit/Delete</th>
+                                        @endif
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -58,6 +60,7 @@
                                         <td>Join date not set!
                                         </td>
                                         @endif
+                                        @if (Auth::user()->getRoleNames()->first() == "Admin")
                                         <td><div style="display:flex;height:39px;justify-content:center;">
                                             <a href="{{ route('edit.user', ['user' => $user->id]) }}" class="btn btn-success btn-glow" style="margin-right: 5%;"><i class="la la-edit"></i></a> 
                                             @can('delete', $user)
@@ -68,6 +71,7 @@
                                                 <button type="submit" value="" class="btn btn-danger btn-glow"><i class="la la-remove"></i></button>
                                             </form>
                                             @endcan</div></td>
+                                            @endif
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -79,7 +83,9 @@
                                         <th>Phone Number</th>
                                         <th>Email</th>
                                         <th>Joined at</th>
+                                        @if (Auth::user()->getRoleNames()->first() == "Admin")
                                         <th>Edit/Delete</th>
+                                        @endif
                                     </tr>
                                 </tfoot>
                             </table>

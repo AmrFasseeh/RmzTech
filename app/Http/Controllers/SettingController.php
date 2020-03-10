@@ -65,7 +65,7 @@ class SettingController extends Controller
     public function show($id)
     {
         $setting = Setting::findorfail($id);
-        if (Setting::findorfail(1)) {
+        if (Setting::all()->last()) {
             return view('settings.attendance', ['settings' => $setting]);
         } else {
             $setting = Setting::create([
@@ -73,7 +73,7 @@ class SettingController extends Controller
                 'end_hr' => 10,
                 'within_flex' => 8,
                 'after_flex' => 6,
-                'penalty_multiplier' => 1
+                'penalty_multiplier' => 0
             ]);
             return view('settings.attendance', ['settings' => $setting]);
         }

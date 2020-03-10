@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Spatie\Permission\Models\Role;
 
 class UsersController extends Controller
 {
@@ -81,6 +82,7 @@ class UsersController extends Controller
                 Image::make(['image_path' => $path])
             );
         }
+        $newEmp->assignRole('employee');
         $newEmp->save();
 
         $request->session()->flash('status', 'Employee was created!');
@@ -323,6 +325,7 @@ class UsersController extends Controller
         //     }
 
         // }
+        $currUser->assignRole('employee');
         $currUser->save();
 
         $request->session()->flash('status', 'Employee was updated!');

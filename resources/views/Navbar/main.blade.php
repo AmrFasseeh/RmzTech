@@ -19,13 +19,13 @@
                                                                 class="ft-menu"></i></a></li>
                                         <li class="nav-item d-none d-lg-block"><a class="nav-link nav-link-expand"
                                                         href="#"><i class="ficon ft-maximize"></i></a></li>
-                                        <li class="nav-item nav-search"><a class="nav-link nav-link-search" href="#"><i
+                                        {{-- <li class="nav-item nav-search"><a class="nav-link nav-link-search" href="#"><i
                                                                 class="ficon ft-search"></i></a>
                                                 <div class="search-input">
                                                         <input class="input" type="text"
                                                                 placeholder="Explore Modern...">
                                                 </div>
-                                        </li>
+                                        </li> --}}
                                 </ul>
                                 <ul class="nav navbar-nav float-right">
 
@@ -52,12 +52,12 @@
                                                                 @csrf
                                                         </form>
                                                 </div>
-                                        {{-- </li>
+                                                {{-- </li>
                                         
                                         <li class="nav-item"><a class="nav-link" href="{{ route('login') }}"><span
-                                                                class="mr-1 user-name text-bold-700">Login</span></a>
+                                                        class="mr-1 user-name text-bold-700">Login</span></a>
                                         </li> --}}
-                                        
+
 
                                 </ul>
                         </div>
@@ -82,6 +82,7 @@
                         <li class="dropdown nav-item" data-menu="dropdown"><a class="dropdown-toggle nav-link" href="#"
                                         data-toggle="dropdown"><i class="la la-user"></i><span>Users</span></a>
                                 <ul class="dropdown-menu">
+                                        @if (Auth::user()->getRoleNames()->first() == "Admin")
                                         <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu"><a
                                                         class="dropdown-item dropdown-toggle" href="#"
                                                         data-toggle="dropdown"><i
@@ -97,26 +98,40 @@
                                                         </li>
                                                 </ul>
                                         </li>
+                                        @endif
                                         <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu"><a
                                                         class="dropdown-item dropdown-toggle" href="#"
                                                         data-toggle="dropdown"><i
                                                                 class="la la-users"></i><span>Employees</span></a>
+                                                @if (Auth::user()->getRoleNames()->first() == "Admin")
                                                 <ul class="dropdown-menu">
                                                         <li data-menu=""><a class="dropdown-item"
                                                                         href="{{ route('show.users') }}"
                                                                         data-toggle=""><span>View All
                                                                                 Employees</span></a>
                                                         </li>
+
                                                         <li data-menu=""><a class="dropdown-item"
                                                                         href="{{ route('add.user') }}"
                                                                         data-toggle=""><span>Add new</span></a>
                                                         </li>
+
                                                 </ul>
+                                                @else
+                                                <ul class="dropdown-menu">
+                                                        <li data-menu=""><a class="dropdown-item"
+                                                                        href="{{ route('view.users') }}"
+                                                                        data-toggle=""><span>View All
+                                                                                Employees</span></a>
+                                                        </li>
+                                                </ul>
+                                                @endif
                                         </li>
                                 </ul>
                         </li>
                         <li class="dropdown nav-item" data-menu="dropdown"><a class="dropdown-toggle nav-link" href="#"
                                         data-toggle="dropdown"><i class="la la-file-text"></i><span>Reports</span></a>
+                                @if (Auth::user()->getRoleNames()->first() == "Admin")
                                 <ul class="dropdown-menu">
                                         <li data-menu=""><a class="dropdown-item" href="{{ route('reports.today') }}"
                                                         data-toggle=""><i class="la la-file-pdf-o"></i><span>Daily
@@ -131,8 +146,19 @@
                                                                 by date</span></a>
                                         </li>
                                 </ul>
-
+                                @endif
+                                @if (Auth::user()->getRoleNames()->first() == "employee")
+                                <ul class="dropdown-menu">
+                                        <li data-menu=""><a class="dropdown-item" href="{{ route('monthly.emp') }}"
+                                                        data-toggle=""><i class="la la-file-pdf-o"></i><span>{{ Carbon\Carbon::now()->englishMonth }} Report</span></a>
+                                        </li>
+                                        <li data-menu=""><a class="dropdown-item" href="{{ route('lastmonth.emp') }}"
+                                                        data-toggle=""><i class="la la-check-square"></i><span>{{ Carbon\Carbon::now()->subMonth()->englishMonth }} Report</span></a>
+                                        </li>
+                                </ul>
+                                @endif
                         </li>
+                        @if (Auth::user()->getRoleNames()->first() == "Admin")
                         <li class="dropdown nav-item" data-menu="dropdown"><a class="dropdown-toggle nav-link" href="#"
                                         data-toggle="dropdown"><i class="la la-cogs"></i><span>Settings</span></a>
                                 <ul class="dropdown-menu">
@@ -158,10 +184,12 @@
                                                 </ul>
                                         </li>
                                         <li data-menu=""><a class="dropdown-item" href="{{ route('add.holidays') }}"
-                                                data-toggle=""><i class="la la-cogs"></i><span>Holidays</span></a>
-                                </li>
+                                                        data-toggle=""><i
+                                                                class="la la-cogs"></i><span>Holidays</span></a>
+                                        </li>
                                 </ul>
                         </li>
+                        @endif
                 </ul>
         </div>
 </div>
