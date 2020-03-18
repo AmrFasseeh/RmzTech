@@ -82,6 +82,12 @@
     </div>
   </div>
 </div>
+<div class="card-content collapse show">
+  <div class="alert alert-light">
+    <h3 class="p-1">Office location:</h3>
+    <hr>
+    <div id="basic-map" class="height-400"></div>
+  </div>
 </div>
 @endsection
 @section('scripts')
@@ -89,9 +95,32 @@
 <script src="{{ asset('/public/app-assets/vendors/js/extensions/moment.min.js') }}"></script>
 <script src="{{ asset('/public/app-assets/vendors/js/extensions/fullcalendar.min.js') }}"></script>
 <script src="{{ asset('/public/app-assets/js/core/libraries/jquery_ui/jquery-ui.min.js') }}"></script>
+
+<script src="//maps.googleapis.com/maps/api/js?key=AIzaSyCXeMO_zXdW4PmIDP5ZDHP5m_ve5kHHKXw"></script>
+<script src="{{ asset('/public/assets/js/gmaps.js') }}"></script>
+
 <script>
   $(document).ready(function () {
 
+
+function loadMaps() {
+ var map =  new GMaps({
+        div:"#basic-map",
+        zoom: 16,
+        lat: 31.2341074,
+        lng: 29.9573123,
+        height:400,
+        })
+  map.addMarker({
+    lat: 31.2341074,
+    lng: 29.9573123,
+    title: 'Rmz Tech',
+    infoWindow: {
+  content: '<div><h5>RmzTech Office</h5><p>10A, Bek Street, Saba Basha, Alexandria, Egypt</p></div>'
+}
+});
+}
+loadMaps();
     // $("#try").click(function(){
     //     var url = $(this).attr("data-link");
     //     $.ajax({

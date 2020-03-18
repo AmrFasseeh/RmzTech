@@ -37,13 +37,8 @@
                                                                         src="{{ Auth::user()->image != NULL ? Auth::user()->image->url() : asset('/public/assets/rmz-logos/icon.png') }}"
                                                                         alt="avatar"><i></i></span></a>
                                                 <div class="dropdown-menu dropdown-menu-right"><a class="dropdown-item"
-                                                                href="user-profile.html"><i class="ft-user"></i> Edit
-                                                                Profile</a><a class="dropdown-item"
-                                                                href="app-email.html"><i class="ft-mail"></i> My
-                                                                Inbox</a><a class="dropdown-item"
-                                                                href="user-cards.html"><i class="ft-check-square"></i>
-                                                                Task</a><a class="dropdown-item" href="app-chat.html"><i
-                                                                        class="ft-message-square"></i> Chats</a>
+                                                                href="{{ route('edit.emp') }}"><i class="ft-user"></i> Edit
+                                                                Profile</a>
                                                         <div class="dropdown-divider"></div><a class="dropdown-item"
                                                                 onclick="event.preventDefault();document.getElementById('logout-form').submit();"><i
                                                                         class="ft-power"></i> Logout</a>

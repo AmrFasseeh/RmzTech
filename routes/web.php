@@ -11,8 +11,10 @@
 |
  */
 
+
+Route::get('/', 'MainController@index')->name('landing');
+
 Route::group(['middleware' => ['role:Admin']], function () {
-    Route::get('/home', 'MainController@index')->name('home');
     Route::resource('settings', 'SettingController')->only('show', 'store');
     Route::resource('businesshours', 'BusinessHourController')->only('show', 'create', 'store');
     Route::get('users/create', 'UsersController@create')->name('add.user');
@@ -24,14 +26,15 @@ Route::group(['middleware' => ['role:Admin']], function () {
 
 });
 Route::group(['middleware' => ['role:employee']], function () {
+    // Route::get('/', 'EmployeeController@index')->name('emp.landing');
     Route::get('/home', 'EmployeeController@index')->name('emp.home');
     Route::get('/viewusers', 'EmployeeController@viewUsers')->name('view.users');
+    Route::get('/edituser', 'EmployeeController@editUser')->name('edit.emp');
     Route::get('/employee/monthly', 'EmployeeController@GetEmpMonth')->name('monthly.emp');
     Route::get('/employee/lastmonth', 'EmployeeController@GetEmpLastMonth')->name('lastmonth.emp');
 
 });
 Route::get('/ajax/show', 'EmployeeController@show');
-Route::get('/', 'MainController@index')->name('landing');
 
 
 Route::get('/admins', 'AdminsController@index')->name('show.admins');
