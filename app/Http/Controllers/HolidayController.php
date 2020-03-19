@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Holiday;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Response;
+// use Response;
 
 class HolidayController extends Controller
 {
@@ -28,7 +28,7 @@ class HolidayController extends Controller
             $this_year = Carbon::create($now->year, 1, 1, 0, 0, 0);
             
             $data = Holiday::where('start', '>=', $this_year->toDateTimeString())->get();
-            return Response::json($data);
+            return response()->json($data);
         }
         // $data = Holiday::where('id', '>=', 0)->get(['id','title','start', 'end', 'color']);
         // dd($data);
@@ -46,13 +46,13 @@ class HolidayController extends Controller
             $this_year = Carbon::create($now->year, 1, 1, 0, 0, 0);
             
             $data = Holiday::where('start', '>=', $this_year->toDateTimeString())->get();
-            return Response::json($data);
+            return response()->json($data);
         }
     }
     public function deleteHolidays(Request $request)
     {
             $holiday = Holiday::where('id',$request->id)->delete();
-            return Response::json($holiday);
+            return response()->json($holiday);
     }
 
     public function editHolidays(Request $request)
@@ -61,7 +61,7 @@ class HolidayController extends Controller
         $updateArr = ['title' => $request->title,'start' => $request->start, 'end' => $request->end, 'color' => $request->color];
         $holiday  = Holiday::where($where)->update($updateArr);
  
-        return Response::json($holiday);
+        return response()->json($holiday);
     } 
     /**
      * Show the form for creating a new resource.
@@ -94,7 +94,7 @@ class HolidayController extends Controller
         // }
         
         // dd($color);
-        return Response::json($event);
+        return response()->json($event);
     }
 
     /**

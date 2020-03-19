@@ -31,7 +31,7 @@ class BusinessHourController extends Controller
          $end = (!empty($_GET["end"])) ? ($_GET["end"]) : ('');
  
          $data = BusinessHour::whereDate('start', '>=', $start)->whereDate('end',   '<=', $end)->get(['id','title','start', 'end']);
-         return Response::json($data);
+         return response()->json($data);
         }
     }
 
@@ -61,7 +61,7 @@ class BusinessHourController extends Controller
         $week = BusinessHour::findorfail(1);
         if (!$week) {
             $week = new BusinessHour();
-            dd('hi');
+            // dd('hi');
         }
 
         foreach ($week_day as $day) {

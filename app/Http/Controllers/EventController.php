@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Event;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Response;
+// use Response;
 
 class EventController extends Controller
 {
@@ -21,7 +21,7 @@ class EventController extends Controller
             $end = (!empty($_GET["end"])) ? ($_GET["end"]) : ('');
 
             $data = Event::whereDate('start', '>=', $start)->whereDate('end',   '<=', $end)->get(['id','title','start', 'end']);
-            return Response::json($data);
+            return response()->json($data);
         }
         
         return view('home');
@@ -37,7 +37,7 @@ class EventController extends Controller
             $endMonth = Carbon::create($now->year, $now->month, $now->daysInMonth, 0, 0, 0);
             
             $counter = Event::where('start', '>=', $thisMonth->toDateTimeString())->where('end', '<=', $endMonth->toDateTimeString())->count();
-            return Response::json($counter);
+            return response()->json($counter);
         }
     }
 
@@ -49,7 +49,7 @@ class EventController extends Controller
             $end = (!empty($_GET["end"])) ? ($_GET["end"]) : ('');
 
             $data = Event::whereDate('start', '>=', $start)->whereDate('end',   '<=', $end)->get(['id','title','start', 'end']);
-            return Response::json($data);
+            return response()->json($data);
         }
         return view('home');
     }
@@ -66,7 +66,7 @@ class EventController extends Controller
         ];
         $event = Event::insert($insertArr);
         // dd($event);
-        return Response::json($event);
+        return response()->json($event);
     }
 
     public function updateEvent(Request $request)
@@ -75,14 +75,14 @@ class EventController extends Controller
         $updateArr = ['title' => $request->title,'start' => $request->start, 'end' => $request->end];
         $event  = Event::where($where)->update($updateArr);
  
-        return Response::json($event);
+        return response()->json($event);
     } 
 
     public function deleteEvent(Request $request)
     {
         $event = Event::where('id',$request->id)->delete();
    
-        return Response::json($event);
+        return response()->json($event);
     }
 
     /**
