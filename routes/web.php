@@ -74,4 +74,11 @@ Route::get('/ajax/getholidays', 'HolidayController@getHolidays')->name('get.holi
 Route::post('/ajax/delholidays', 'HolidayController@deleteHolidays')->name('delete.holidays');
 Route::post('/ajax/editholidays', 'HolidayController@editHolidays')->name('edit.holidays');
 
+
+
+Route::get('/allrecords', 'EmployeeController@getAllRecords');
+Route::get('/ajax/listyears', 'EmployeeController@listYears')->name('list.years');
+Route::get('/ajax/listmonths/{year}', 'EmployeeController@listMonths')->name('list.months');
+Route::get('/empMonth/{year}/{month}', 'EmployeeController@showYearMonth')->name('emp.month');
+
 Auth::routes();

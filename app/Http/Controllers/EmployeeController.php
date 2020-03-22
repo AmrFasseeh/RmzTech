@@ -2,9 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\BusinessHour;
-use App\Event;
-use App\Holiday;
 use App\Setting;
 use App\User;
 use App\UsRecord;
@@ -227,6 +224,178 @@ class EmployeeController extends Controller
         }
 
     }
+
+    public function getAllRecords()
+    {
+        return view('employee.allrecords');
+    }
+
+    public function listYears()
+    {
+        $years = UsRecord::select('user_id', 'login_yr_record')
+            ->where('user_id', Auth::user()->id)
+            ->orderby('login_yr_record', 'desc')
+            ->get()
+            ->unique('login_yr_record');
+
+        return response()->json($years);
+    }
+
+    public function listMonths($year)
+    {
+        $months = UsRecord::select('user_id', 'login_yr_record', 'login_mo_record')
+            ->orderby('login_mo_record', 'desc')
+            ->where([
+                'login_yr_record' => $year,
+                'user_id' => Auth::user()->id,
+            ])
+            ->get()
+            ->unique('login_mo_record');
+
+        return response()->json($months);
+
+    }
+
+    public function showYearMonth($year, $month)
+    {
+        $users = UsRecord::where(['login_yr_record' => $year, 'login_mo_record' => $month])
+            ->where(['user_id' => Auth::user()->id])
+            ->orderby('logout_time_record', 'desc')
+            ->with('user')
+            ->get();
+
+        CarbonInterval::setCascadeFactors([
+            'minute' => [60, 'seconds'],
+            'hour' => [60, 'minutes'],
+            // in this example the cascade won't go farther than hour unit
+        ]);
+        $settings = Setting::findorfail(1);
+
+        if (!$users->isEmpty()) {
+            // Getting the total working hours expected on the selected month
+            $thisMonth = Carbon::createFromTimestamp($users[0]->login_time_record);
+            $dt = Carbon::create($thisMonth->year, $thisMonth->month, 1);
+            $dt2 = Carbon::create($thisMonth->year, $thisMonth->month, $thisMonth->daysInMonth);
+            $workingDays = $dt->diffInDaysFiltered(function (Carbon $date) {
+                return !$date->isWeekend();
+            }, $dt2);
+            if ($workingDays == 20) {
+                $Hours = $dt->diffInHoursFiltered(function (Carbon $date) {
+                    return !$date->isWeekend();
+                }, $dt2);
+                $workingHours = $Hours - 320;
+            } else if ($workingDays == 21) {
+                $Hours = $dt->diffInHoursFiltered(function (Carbon $date) {
+                    return !$date->isWeekend();
+                }, $dt2);
+                $workingHours = $Hours - 336;
+            } else if ($workingDays == 22) {
+                $Hours = $dt->diffInHoursFiltered(function (Carbon $date) {
+                    return !$date->isWeekend();
+                }, $dt2);
+                $workingHours = $Hours - 352;
+            } else if ($workingDays == 23) {
+                $Hours = $dt->diffInHoursFiltered(function (Carbon $date) {
+                    return !$date->isWeekend();
+                }, $dt2);
+                $workingHours = $Hours - 368;
+            }
+        }
+
+        foreach ($users as $user) {
+            if ($user->logout_time_record > $user->login_time_record) {
+                $login = Carbon::createFromTimestamp($user->login_time_record);
+                $logout = Carbon::createFromTimestamp($user->logout_time_record);
+                $worksecs = $login->diffInSeconds($logout);
+                $workmins = $login->diffInMinutes($logout);
+                $workhrs = $login->diffInHours($logout);
+                $expectedUserHours[$user->user_id] = $workingHours;
+
+                $wrkhrs[$user->id] = CarbonInterval::seconds($worksecs)->cascade()->forHumans();
+
+                // dd($workhrs, $worksecs, $wrkhrs[$user->id]);
+                $total[$user->id] = $workmins;
+                $empTotal[$user->user_id][$user->id] = $workmins;
+                $end = Carbon::create($login->year, $login->month, $login->day, $settings->end_hr ?? 10, 0, 0);
+                $diff = $login->floatDiffInHours($end);
+                if ($diff > 0) {
+                    // dd(ceil($diff)*2);
+                    $extraHours[$user->user_id][$user->id] = $diff;
+                }
+            } else {
+                $today = $user->login_time_record;
+                $login = Carbon::createFromTimestamp($user->login_time_record);
+                $start = Carbon::create($login->year, $login->month, $login->day, $settings->start_hr ?? 7, 0, 0);
+                $end = Carbon::create($login->year, $login->month, $login->day, $settings->end_hr ?? 10, 0, 0);
+                // dd($login->day);
+                if ($login->between($start, $end, true)) {
+                    $settings_workhrs = CarbonInterval::hours($settings->within_flex);
+                    $worksecs = $settings_workhrs->totalSeconds;
+                    $workmins = $settings_workhrs->totalMinutes;
+                    $total[$user->id] = $workmins;
+                    $empTotal[$user->user_id][$user->id] = $workmins;
+                    $wrkhrs[$user->id] = CarbonInterval::seconds($worksecs)->cascade()->forHumans();
+                } else {
+                    $settings_workhrs = CarbonInterval::hours($settings->after_flex);
+                    $worksecs = $settings_workhrs->totalSeconds;
+                    $workmins = $settings_workhrs->totalMinutes;
+                    $total[$user->id] = $workmins;
+                    $empTotal[$user->user_id][$user->id] = $workmins;
+                    $wrkhrs[$user->id] = CarbonInterval::seconds($worksecs)->cascade()->forHumans();
+                    $diff = $login->floatDiffInHours($end);
+                    if ($diff > 0) {
+                        $extraHours[$user->user_id][$user->id] = $diff;
+                    }
+                }
+            }
+        }
+        // print_r($total);
+        if (isset($total)) {
+            $n_total = array_sum($total);
+            foreach ($users as $user) {
+                $totalemphrs[$user->user_id] = CarbonInterval::minutes(array_sum($empTotal[$user->user_id]))->cascade();
+                if (isset($extraHours)) {
+                    $finalExtra[$user->user_id] = ceil(array_sum($extraHours[$user->user_id]));
+                    $expectedUserHours[$user->user_id] = $workingHours + (ceil($finalExtra[$user->user_id]) * $settings->penalty_multiplier);
+                }
+
+                if (isset($workingHours)) {
+                    $diff = $workingHours - $totalemphrs[$user->user_id]->hours;
+                    // dd($diff, $user->user->working_hrs/2, $totalemphrs[$user->user_id]->hours);
+                    // dd(( ($diff <= $user->user->working_hrs / 1.5 )), $diff);
+                    if (($workingHours / 2) <= $diff) {
+                        $class[$user->user_id] = 'bad';
+                    } elseif (($workingHours - ($workingHours / 1.5) <= $diff)) {
+                        $class[$user->user_id] = 'ok';
+                        // dd($diff);
+                    } elseif (($workingHours - ($workingHours / 1.1) <= $diff)) {
+                        $class[$user->user_id] = 'good';
+                    } else {
+                        $class[$user->user_id] = 'excellent';
+                        // dd($diff);
+                    }
+                }
+            }
+            // dd($totalemphrs[35]);
+            // print_r($empTotal);
+            // $totalemphrs = array_sum(array_column($empTotal, ));
+            // print_r($totalemphrs[35]);
+            $totalHrs = CarbonInterval::minutes($n_total)->cascade();
+
+            if (isset($wrkhrs)) {
+                if (!isset($expectedUserHours)) {
+                    return view('Records.show', ['users' => $users->unique('name_record'), 'wkhrs' => $wrkhrs, 'totalhrs' => $totalHrs,
+                        'month' => $month, 'emptotal' => $totalemphrs, 'status' => $class, 'wkHours' => $workingHours]);
+                } else {
+                    return view('Records.show', ['users' => $users->unique('name_record'), 'wkhrs' => $wrkhrs, 'totalhrs' => $totalHrs,
+                        'month' => $month, 'emptotal' => $totalemphrs, 'status' => $class, 'expected_wkHours' => $expectedUserHours, 'wkHours' => $workingHours]);
+                }
+            }
+        }
+
+        return view('Records.show', ['users' => $users]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -258,7 +427,7 @@ class EmployeeController extends Controller
     public function show()
     {
         $data = 'Hello';
-        return Response::json($data);
+        return response()->json($data);
     }
 
     /**
