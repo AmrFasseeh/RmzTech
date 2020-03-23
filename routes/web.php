@@ -86,7 +86,7 @@ Route::get('/empMonth/{year}/{month}', 'EmployeeController@showYearMonth')->name
 
 
 //Company routes
-Route::get('companies', 'CompanyController@index');
+Route::get('companies', 'CompanyController@index')->name('get.company');
 Route::post('companies/add', 'CompanyController@store')->name('add.company');
 // Route::get('/companies/edit/{user}', 'CompanyController@edit')->name('edit.company');
 Route::post('companies/update/{company}', 'CompanyController@update')->name('update.company');

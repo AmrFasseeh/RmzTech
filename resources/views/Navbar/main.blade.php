@@ -78,7 +78,7 @@
                         <li class="dropdown nav-item" data-menu="dropdown"><a class="dropdown-toggle nav-link" href="#"
                                         data-toggle="dropdown"><i class="la la-user"></i><span>Users</span></a>
                                 <ul class="dropdown-menu">
-                                        @if (Auth::user()->getRoleNames()->first() == "Admin")
+                                        @if (Auth::user()->getRoleNames()->contains('Admin'))
                                         <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu"><a
                                                         class="dropdown-item dropdown-toggle" href="#"
                                                         data-toggle="dropdown"><i
@@ -143,7 +143,7 @@
                                         </li>
                                 </ul>
                                 @endif
-                                @if (Auth::user()->getRoleNames()->first() == "employee")
+                                @if (Auth::user()->getRoleNames()->contains('employee'))
                                 <ul class="dropdown-menu">
                                         <li data-menu=""><a class="dropdown-item" href="{{ route('monthly.emp') }}"
                                                         data-toggle=""><i
@@ -193,6 +193,10 @@
                                                         data-toggle=""><i
                                                                 class="la la-cogs"></i><span>Holidays</span></a>
                                         </li>
+                                        <li data-menu=""><a class="dropdown-item" href="{{ route('get.company') }}"
+                                                data-toggle=""><i
+                                                        class="la la-cogs"></i><span>Companies</span></a>
+                                </li>
                                 </ul>
                         </li>
                         @endif
