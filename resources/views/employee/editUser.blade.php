@@ -161,7 +161,7 @@
                                 </div>
                             </div>
                         </div>
-                        <input type="hidden" name="permissions" value="0">
+                        {{-- <input type="hidden" name="permissions" value="0"> --}}
                         <div class="form-actions text-right">
                             <button type="button" class="btn btn-warning mr-1">
                                 <i class="ft-x"></i> Cancel

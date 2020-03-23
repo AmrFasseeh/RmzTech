@@ -37,7 +37,8 @@
                                                                         src="{{ Auth::user()->image != NULL ? Auth::user()->image->url() : asset('/public/assets/rmz-logos/icon.png') }}"
                                                                         alt="avatar"><i></i></span></a>
                                                 <div class="dropdown-menu dropdown-menu-right"><a class="dropdown-item"
-                                                                href="{{ route('edit.emp') }}"><i class="ft-user"></i> Edit
+                                                                href="{{ route('edit.emp') }}"><i class="ft-user"></i>
+                                                                Edit
                                                                 Profile</a>
                                                         <div class="dropdown-divider"></div><a class="dropdown-item"
                                                                 onclick="event.preventDefault();document.getElementById('logout-form').submit();"><i
@@ -145,11 +146,20 @@
                                 @if (Auth::user()->getRoleNames()->first() == "employee")
                                 <ul class="dropdown-menu">
                                         <li data-menu=""><a class="dropdown-item" href="{{ route('monthly.emp') }}"
-                                                        data-toggle=""><i class="la la-file-pdf-o"></i><span>{{ Carbon\Carbon::now()->englishMonth }} Report</span></a>
+                                                        data-toggle=""><i
+                                                                class="la la-file-pdf-o"></i><span>{{ Carbon\Carbon::now()->englishMonth }}
+                                                                Report</span></a>
                                         </li>
                                         <li data-menu=""><a class="dropdown-item" href="{{ route('lastmonth.emp') }}"
-                                                        data-toggle=""><i class="la la-check-square"></i><span>{{ Carbon\Carbon::now()->subMonth()->englishMonth }} Report</span></a>
+                                                        data-toggle=""><i
+                                                                class="la la-check-square"></i><span>{{ Carbon\Carbon::now()->subMonth()->englishMonth }}
+                                                                Report</span></a>
                                         </li>
+                                        <li data-menu=""><a class="dropdown-item" href="{{ route('emp.allrecords') }}"
+                                                        data-toggle=""><i class="la la-check-square"></i><span>Records
+                                                                by date</span></a>
+                                        </li>
+
                                 </ul>
                                 @endif
                         </li>

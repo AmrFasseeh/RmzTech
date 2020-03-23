@@ -25,31 +25,59 @@
                             <table class="table table-striped table-bordered default-ordering">
                                 <thead>
                                     <tr>
+                                        <th>Image</th>
                                         <th>Name</th>
                                         <th>User Name</th>
                                         <th>Phone Number</th>
                                         <th>Email</th>
-                                        <th>Created at</th>
+                                        <th>Edit/Delete</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($users as $user)
                                     <tr>
-                                        <td>{{ $user->fullname }}</td>
+                                        @if (isset($user->image))
+                                        <td><img src="{{ $user->image->url() }}" alt=""
+                                                style="width: 64px;height: 64px;"></td>
+                                        @else
+                                        <td><img src="{{ asset('/public/storage/user_images/default-user.jpg') }}" alt=""
+                                                style="width: 64px;height: 64px;"></td>
+                                        @endif
+                                        <td><a
+                                                href="{{ route('show.single', ['user'=>$user->id]) }}">{{ $user->fullname }}</a>
+                                        </td>
                                         <td>{{ $user->username }}</td>
                                         <td>{{ $user->phone }}</td>
                                         <td>{{ $user->email }}</td>
-                                        <td>{{ Carbon\Carbon::createFromTimestamp($user->time_user)->toDateTimeString() }}</td>
+                                        @if (Auth::user()->getRoleNames()->first() == "Admin")
+                                        <td>
+                                            <div style="display:flex;height:39px;justify-content:center;">
+                                                <a href="{{ route('edit.user', ['user' => $user->id]) }}"
+                                                    class="btn btn-success btn-glow" style="margin-right: 5%;"><i
+                                                        class="la la-edit"></i></a>
+                                                @can('delete', $user)
+                                                <form method="POST" class="fm-inline"
+                                                    action="{{ route('delete.user', ['user' => $user->id]) }}">
+                                                    @csrf
+                                                    {{-- @method('DELETE') --}}
+
+                                                    <button type="submit" value="" class="btn btn-danger btn-glow"><i
+                                                            class="la la-remove"></i></button>
+                                                </form>
+                                                @endcan</div>
+                                        </td>
+                                        @endif
                                     </tr>
                                     @endforeach
                                 </tbody>
                                 <tfoot>
                                     <tr>
+                                        <th>Image</th>
                                         <th>Name</th>
                                         <th>User Name</th>
                                         <th>Phone Number</th>
                                         <th>Email</th>
-                                        <th>Created at</th>
+                                        <th>Edit/Delete</th>
                                     </tr>
                                 </tfoot>
                             </table>

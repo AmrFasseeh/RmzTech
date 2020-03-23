@@ -44,7 +44,8 @@
                                         <td><img src="{{ $user->image->url() }}" alt=""
                                                 style="width: 64px;height: 64px;"></td>
                                         @else
-                                        <td></td>
+                                        <td><img src="{{ asset('public/storage/user_images/default_user.jpg') }}" alt=""
+                                            style="width: 64px;height: 64px;"></td>
                                         @endif
 
                                         <td><a

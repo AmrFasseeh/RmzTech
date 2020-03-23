@@ -8,7 +8,7 @@
         <div class="content-body">
             <section class="flexbox-container">
                 <div class="col-12 d-flex align-items-center justify-content-center">
-                    <div class="col-lg-4 col-md-8 col-10 box-shadow-2 p-0">
+                    <div class="col-lg-8 col-md-8 col-10 box-shadow-2 p-0">
                         <div class="card border-grey border-lighten-3 m-0">
                             <div class="card-header border-0 pb-0">
                                 <div class="card-title text-center">
@@ -156,15 +156,10 @@
                                                 </p>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-12 col-sm-6 col-md-6">
+                                        <div class="row justify-content-md-center">
+                                            <div class="col-12 col-sm-12 col-md-12">
                                                 <button type="submit" class="btn btn-info btn-lg btn-block"><i
                                                         class="ft-user"></i> Register</button>
-                                            </div>
-                                            <div class="col-12 col-sm-6 col-md-6">
-                                                <a href="{{ route('login') }}"
-                                                    class="btn btn-danger btn-lg btn-block"><i class="ft-unlock"></i>
-                                                    Login</a>
                                             </div>
                                         </div>
                                     </form>
