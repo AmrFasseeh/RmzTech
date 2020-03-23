@@ -59,7 +59,6 @@ class RegisterController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'phone' => ['required', 'digits:11'],
             'gender' => ['required', 'boolean'],
-            'permissions' => ['required', 'boolean']
         ]);
     }
 
@@ -78,7 +77,7 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
             'phone' => $data['phone'],
             'gender' => $data['gender'],
-            'permissions' => $data['permissions'],
+            'permissions' => 1,
         ]);
         $user->assignRole('Admin');
         return $user;

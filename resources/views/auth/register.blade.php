@@ -42,8 +42,9 @@
                                             </div>
                                             <div class="col-12 col-sm-12 col-md-12">
                                                 <fieldset class="form-group position-relative has-icon-left">
-                                                    <input type="text" name="fullname" id="fullname" class="form-control"
-                                                        placeholder="Full Name" tabindex="2" value="{{ old('name') }}">
+                                                    <input type="text" name="fullname" id="fullname"
+                                                        class="form-control" placeholder="Full Name" tabindex="2"
+                                                        value="{{ old('name') }}">
                                                     <div class="form-control-position">
                                                         <i class="ft-user"></i>
                                                     </div>
@@ -113,7 +114,7 @@
                                                 </fieldset>
                                             </div>
                                             <div class="row mb-1 ml-1">
-                                                <div class="col-12 col-sm-12 col-md-12">
+                                                <div class="col-lg-12 col-sm-12 col-md-12">
                                                     <fieldset>
                                                         <label for="gender">Gender: </label>
                                                         <input type="radio" name="gender" value="1"> Male
@@ -126,36 +127,8 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="row mb-1 ml-1">
-                                                <div class="col-12 col-sm-12 col-md-12">
-                                                    <fieldset>
-                                                        <label for="isAdmin">Admin: </label>
-                                                        <input type="checkbox" name="permissions" value="1">
-                                                        <label for="isAdmin"> Yes</label>
-                                                    </fieldset>
-                                                    <div class="help-block font-small-3">
-                                                        @error('permissions')
-                                                        {{ $message }}
-                                                        @enderror
-                                                    </div>
-                                                </div>
-                                            </div>
                                         </div>
-                                        <div class="row mb-1">
-                                            <div class="col-4 col-sm-3 col-md-3">
-                                                <fieldset>
-                                                    <input type="checkbox" name="remember" id="remember"
-                                                        class="chk-remember">
-                                                    <label for="remember"> I Agree</label>
-                                                </fieldset>
-                                            </div>
-                                            <div class="col-8 col-sm-9 col-md-9">
-                                                <p class="font-small-3">By clicking Register, you agree to the <a
-                                                        href="#" data-toggle="modal" data-target="#t_and_c_m">Terms and
-                                                        Conditions</a> set out by this site, including our Cookie Use.
-                                                </p>
-                                            </div>
-                                        </div>
+
                                         <div class="row justify-content-md-center">
                                             <div class="col-12 col-sm-12 col-md-12">
                                                 <button type="submit" class="btn btn-info btn-lg btn-block"><i
