@@ -38,7 +38,7 @@
                                         <div class="col-md-9">
                                             <input type="text" id="fullname" class="form-control border-primary"
                                                 placeholder="Full Name" name="fullname"
-                                                value="{{ $user->fullname ?? '' }}" disabled>
+                                                value="{{ $user->fullname ?? '' }}" readonly>
                                             <div class="help-block font-small-3">
                                                 @error('fullname')
                                                 {{ $message }}
@@ -53,7 +53,7 @@
                                         <div class="col-md-9">
                                             <input type="text" id="username" class="form-control border-primary"
                                                 placeholder="User Name" name="username"
-                                                value="{{ $user->username ?? '' }}" disabled>
+                                                value="{{ $user->username ?? '' }}" readonly>
                                             <div class="help-block font-small-3">
                                                 @error('username')
                                                 {{ $message }}
@@ -127,7 +127,7 @@
 
                                             <input type="text" class="form-control border-primary" id="animate"
                                                 placeholder="Join Date" name="time_user"
-                                                value="{{ $user->time_user ?? '' }}" disabled>
+                                                value="{{ $user->time_user ?? '' }}" readonly>
                                             <div class="help-block font-small-3">
                                                 @error('date')
                                                 {{ $message }}

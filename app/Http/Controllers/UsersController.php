@@ -14,7 +14,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use Spatie\Permission\Models\Role;
 
 class UsersController extends Controller
 {
@@ -291,9 +290,9 @@ class UsersController extends Controller
             $currUser->time_user = Carbon::make($validatedEmp['time_user']);
         }
         // $currUser->gender = $validatedEmp['gender'];
-        if ($currUser->working_hrs != (int) $validatedEmp['working_hrs']) {
-            $currUser->working_hrs = (int) $validatedEmp['working_hrs'];
-        }
+        // if ($currUser->working_hrs != (int) $validatedEmp['working_hrs']) {
+        //     $currUser->working_hrs = (int) $validatedEmp['working_hrs'];
+        // }
 
         // dd($request->file('image_user'));
         if ($request->file('image')) {
@@ -325,7 +324,11 @@ class UsersController extends Controller
         //     }
 
         // }
-        $currUser->assignRole('employee');
+        if ($currUser->permissions == 0) {
+            $currUser->assignRole('employee');
+        } elseif ($currUser->permissions == 1) {
+            $currUser->assignRole('Admin');
+        }
         $currUser->save();
 
         $request->session()->flash('status', 'Employee was updated!');

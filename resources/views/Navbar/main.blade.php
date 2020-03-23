@@ -163,7 +163,8 @@
                                 </ul>
                                 @endif
                         </li>
-                        @if (Auth::user()->getRoleNames()->first() == "Admin")
+                        
+                        @if (Auth::user()->getRoleNames()->contains('Admin'))
                         <li class="dropdown nav-item" data-menu="dropdown"><a class="dropdown-toggle nav-link" href="#"
                                         data-toggle="dropdown"><i class="la la-cogs"></i><span>Settings</span></a>
                                 <ul class="dropdown-menu">
