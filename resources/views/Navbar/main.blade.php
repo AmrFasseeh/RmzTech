@@ -99,7 +99,7 @@
                                                         class="dropdown-item dropdown-toggle" href="#"
                                                         data-toggle="dropdown"><i
                                                                 class="la la-users"></i><span>Employees</span></a>
-                                                @if (Auth::user()->getRoleNames()->first() == "Admin")
+                                                @if (Auth::user()->getRoleNames()->contains('Admin'))
                                                 <ul class="dropdown-menu">
                                                         <li data-menu=""><a class="dropdown-item"
                                                                         href="{{ route('show.users') }}"
@@ -127,7 +127,7 @@
                         </li>
                         <li class="dropdown nav-item" data-menu="dropdown"><a class="dropdown-toggle nav-link" href="#"
                                         data-toggle="dropdown"><i class="la la-file-text"></i><span>Reports</span></a>
-                                @if (Auth::user()->getRoleNames()->first() == "Admin")
+                                @if (Auth::user()->getRoleNames()->contains('Admin'))
                                 <ul class="dropdown-menu">
                                         <li data-menu=""><a class="dropdown-item" href="{{ route('reports.today') }}"
                                                         data-toggle=""><i class="la la-file-pdf-o"></i><span>Daily

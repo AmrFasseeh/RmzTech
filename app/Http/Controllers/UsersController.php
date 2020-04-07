@@ -13,6 +13,7 @@ use Carbon\CarbonInterval;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class UsersController extends Controller
@@ -57,7 +58,7 @@ class UsersController extends Controller
         $newEmp = User::create([
             'fullname' => $validatedEmp['fullname'],
             'username' => $validatedEmp['username'],
-            'password' => md5($validatedEmp['password']),
+            'password' => Hash::make($validatedEmp['password']),
             'email' => $validatedEmp['email'],
             'phone' => $validatedEmp['phone'],
             'time_user' => '123456',
