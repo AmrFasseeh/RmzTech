@@ -24,6 +24,9 @@ Route::group(['middleware' => ['role:Admin']], function () {
     Route::post('users/delete', 'UsersController@destroy')->name('delete.user');
     Route::get('/users', 'UsersController@index')->name('show.users');
 
+    Route::get('reports/today', 'UsRecordsController@showTodayReport')->name('reports.today');
+Route::get('reports/monthly', 'UsRecordsController@showThisMonth')->name('reports.monthly');
+
 });
 Route::group(['middleware' => ['role:employee']], function () {
     // Route::get('/', 'EmployeeController@index')->name('emp.landing');
@@ -61,8 +64,7 @@ Route::get('records/{year}/{month}', 'UsRecordsController@showYearMonth')->name(
 
 Route::get('records/{year}/{month}/{day}', 'UsRecordsController@showMonthDays')->name('show.daily');
 
-Route::get('reports/today', 'UsRecordsController@showTodayReport')->name('reports.today');
-Route::get('reports/monthly', 'UsRecordsController@showThisMonth')->name('reports.monthly');
+
 
 
 Route::get('/ajax/populatecalendar', 'EventController@populateCalendar');
