@@ -117,7 +117,7 @@ class EmployeeController extends Controller
             // dd($userRecords->usRecord->login_time_record);
 
             return view('employee.show',
-                ['user' => $userRecords,
+                [   'user' => $userRecords,
                     'records' => $rec,
                     'wkhrs' => $wrkhrs,
                     'months' => $sorting,

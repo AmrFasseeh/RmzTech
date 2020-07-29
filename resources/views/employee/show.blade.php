@@ -9,6 +9,7 @@
 @endsection
 @section('content')
 <div class="row mt-2 mb-2">
+    @if (isset($user))
     <div class="col-xl-6 col-md-6 col-12">
         <div class="card">
             <div class="card-content">
@@ -23,13 +24,13 @@
                     <div class="p-2 media-body">
                         <h3>{{ $user->fullname }}</h3>
                         <h5 class="text-bold-400">{{ $user->email }}</h5>
-                        <h5 class="text-bold-400 mb-0">{{ Carbon\Carbon::make($user->time_user)->toDateString() }}</h5>
+                        <h5 class="text-bold-400 mb-0">{{ isset($user->time_user) ? Carbon\Carbon::make($user->time_user)->toDateString() : '' }}</h5>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    
+    @endif
     <div class="col-xl-6 col-md-6 col-6"></div>
 </div>
 <div class="row mt-1 mb-1">

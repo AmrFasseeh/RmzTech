@@ -142,8 +142,7 @@
                                                                 by date</span></a>
                                         </li>
                                 </ul>
-                                @endif
-                                @if (Auth::user()->getRoleNames()->contains('employee'))
+                                @else
                                 <ul class="dropdown-menu">
                                         <li data-menu=""><a class="dropdown-item" href="{{ route('monthly.emp') }}"
                                                         data-toggle=""><i
